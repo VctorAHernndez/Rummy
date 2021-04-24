@@ -61,7 +61,7 @@ public class Card implements CardInterface, Comparable<Card> {
   */
   // NOTE: NOT IN INTERFACE
   public static int getSuitIndex(char suit) {
-    switch(suit) {
+    switch (suit) {
       case 'c':
         return 0;
       case 'd':
@@ -121,7 +121,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @return a char representing the suit value of the card.
   */
   public char getSuit() {
-    return suitValue;
+    return this.suitValue;
   }
 
 
@@ -130,7 +130,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @return a char representing the rank value of the card.
   */
   public char getRank() {
-    return rankValue;
+    return this.rankValue;
   }
 
 
@@ -139,7 +139,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @return an icon containing the graphic image of the card.
   */
   public ImageIcon getCardImage() {
-    return cardImage;
+    return this.cardImage;
   }
 
 
@@ -150,7 +150,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @return the name of the card.
   */
   public String toString() {
-    return "" + getRank() + getSuit();
+    return "" + this.getRank() + this.getSuit();
   }
 
 
@@ -163,7 +163,7 @@ public class Card implements CardInterface, Comparable<Card> {
   */
   // NOTE: NOT IN INTERFACE
   public int compareTo(Card otherCard) {
-    int rankDiff = getRankIndex(suitValue) - getRankIndex(otherCard.suitValue);
+    int rankDiff = getRankIndex(this.suitValue) - getRankIndex(otherCard.suitValue);
     return rankDiff;
   }
 

@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import proj2.core.Card;
 import proj2.core.Deck;
+import proj2.core.Hand;
 import proj2.ui.HandPanel;
 import proj2.ui.SetPanel;
 
@@ -26,16 +27,17 @@ import proj2.ui.SetPanel;
 /**
 * This GUI assumes that you are using a 52 card deck and that you have 13 sets in the deck.
 * The GUI is simulating a playing table
-* @author Patti Ordonez
+* @author Víctor A. Hernández Castro
 */
 public class Table extends JFrame implements ActionListener {
 
 
 	// Class attributes
-	final static int numDealtCards = 9;
+	final private static int NUM_DEALT_CARDS = 9;
+	final private static int NUM_SETS = 13;
 
 
-	// Instance attributes
+	// GUI Components
 	JPanel player1;
 	JPanel player2;
 	JPanel deckPiles;
@@ -43,12 +45,11 @@ public class Table extends JFrame implements ActionListener {
 	JLabel stack;
 	JList p1HandPile;
 	JList p2HandPile;
-	Deck cardDeck;
-	Deck stackDeck;
 
-	SetPanel [] setPanels = new SetPanel[13];
+	SetPanel [] setPanels = new SetPanel[NUM_SETS];
 	JLabel topOfStack;
 	JLabel deckPile;
+
 	JButton p1Stack;
 	JButton p2Stack;
 
@@ -61,28 +62,46 @@ public class Table extends JFrame implements ActionListener {
 	JButton p1LayOnStack;
 	JButton p2LayOnStack;
 
-	DefaultListModel p1Hand;
-	DefaultListModel p2Hand;
+
+	// Data Models
+	Deck cardDeck;
+	Deck stackDeck;
+
+	// TODO: CHANGE TO HAND LIKE HECTOR DID?
+	Hand p1Hand;
+	Hand p2Hand;
+
+	// TODO: figure what this is for hector
+	// int playerturn = 0;
+	// int playerlayStack = 0;
+	// int playerlay = 0;
 
 
 	public Table() {
-		super("The Card Game of the Century");
 
+
+		// Setup Table Layout
+		super("The Card Game of the Century");
 		setLayout(new BorderLayout());
 		setSize(1200,700);
 
 
+		// Create Deck with its 52 cards and shuffle it
 		cardDeck = new Deck();
-
 		for (int i = 0; i < Card.suit.length; i++) {
 			for (int j = 0; j < Card.rank.length; j++) {
-				Card card = new Card(Card.suit[i],Card.rank[j]);
+				Card card = new Card(Card.suit[i], Card.rank[j]);
 				cardDeck.addCard(card);
 			}
 		}
 
 		cardDeck.shuffle();
+
+
+		// Create Stack Deck for later
 		stackDeck = new Deck();
+
+
 
 		JPanel top = new JPanel();
 
@@ -134,11 +153,11 @@ public class Table extends JFrame implements ActionListener {
 		p1LayOnStack.addActionListener(this);
 
 
-		Card [] cardsPlayer1 = new Card[numDealtCards];
+		Card[] cardsPlayer1 = new Card[NUM_DEALT_CARDS];
 		deal(cardsPlayer1);
-		p1Hand = new DefaultListModel();
+		p1Hand = new Hand();
 		for (int i = 0; i < cardsPlayer1.length; i++) {
-			p1Hand.addElement(cardsPlayer1[i]);
+			p1Hand.addCard(cardsPlayer1[i]);
 		}
 		p1HandPile = new JList(p1Hand);
 
@@ -188,12 +207,12 @@ public class Table extends JFrame implements ActionListener {
 		p2LayOnStack = new JButton("LayOnStack");
 		p2LayOnStack.addActionListener(this);
 
-		Card [] cardsPlayer2 = new Card[numDealtCards];
+		Card [] cardsPlayer2 = new Card[NUM_DEALT_CARDS];
 		deal(cardsPlayer2);
-		p2Hand = new DefaultListModel();
+		p2Hand = new Hand();
 
 		for (int i = 0; i < cardsPlayer2.length; i++) {
-			p2Hand.addElement(cardsPlayer2[i]);
+			p2Hand.addCard(cardsPlayer2[i]);
 		}
 
 		p2HandPile = new JList(p2Hand);
@@ -223,119 +242,186 @@ public class Table extends JFrame implements ActionListener {
 
 
 
-	private void deal(Card [] cards) {
-		for(int i = 0; i < cards.length; i ++)
-			cards[i] = (Card)cardDeck.dealCard();
+	private void deal(Card[] cards) {
+		for (int i = 0; i < cards.length; i++) {
+			cards[i] = cardDeck.dealCard();
+		}
 	}
 
 
-	private void layCard(Card card) {
+	private void layCardOnTable(Card card) {
 		char rank = card.getRank();
 		char suit = card.getSuit();
 		int suitIndex = Card.getSuitIndex(suit);
 		int rankIndex = Card.getRankIndex(rank);
+		System.out.println("Laying " + card);
 		// setPanels[rankIndex].array[suitIndex].setText(card.toString());
-		System.out.println("laying " + card);
 		setPanels[rankIndex].array[suitIndex].setIcon(card.getCardImage());
 	}
 
 
+	private void announceWinner() {
+		int p1MinusP2 = p1Hand.compareTo(p2Hand);
+
+		if (p1MinusP2 > 0) {
+			System.out.println("Player 1 Wins!!!");
+		} else if (p1MinusP2 == 0) {
+			System.out.println("Tie!");
+		} else {
+			System.out.println("Player 2 Wins!!!");
+		}
+	}
+
+
+	private void handleP1ClickedOnDeck() {
+
+		// TODO: pass turn
+		Card card = cardDeck.dealCard();
+
+		// TODO: sort after adding card
+		// TODO: only add card for relevant player
+		if (card != null) {
+			p1Hand.addCard(card);
+		}
+
+		
+		// Game Over
+		if (cardDeck.isEmpty()) {
+			deckPile.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+			announceWinner();
+		}
+	}
+
+
+	private void handleP1ClickedOnStack() {
+
+ 		// TODO: debería quitar carta en el top del stack?
+		Card card = stackDeck.removeCard();
+
+		if (card != null) {
+
+			// TODO: pass turn
+
+			Card topCard = stackDeck.peek();
+
+			// First change the image in the stack
+			if (topCard != null) {
+				topOfStack.setIcon(topCard.getCardImage());
+			} else {
+				topOfStack.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+			}
+
+			// Then add the removed card to the player's hand
+			// TODO: sort after adding
+			// TODO: only add card for relevant player	
+			p1Hand.addCard(card);
+
+		}
+	}
+
+
+	// TODO: THIS LAYS SETS!!!!
+	private void handleP1ClickedOnLay() {
+		
+ 		// TODO: findSet instead?
+ 		// TODO: only do it for relevant player
+		Object [] cards = p1HandPile.getSelectedValues();
+
+		if (cards != null) {
+			for (int i = 0; i < cards.length; i++) {
+				Card card = (Card) cards[i];
+				layCardOnTable(card);
+				// TODO: only do it for relevant player
+				p1Hand.removeCard(card);
+			}
+		}
+
+
+		// Check if player's hand is empty
+		// TODO: only do it for relevant player
+		if (p1Hand.isEmpty()) {
+			// TODO: check if we need to change an image or text when player's hand is empty
+			announceWinner();
+		}
+
+
+		// TODO: figure out if this is actually necessary
+		// if (cardDeck.isEmpty()) {
+			// announceWinner();
+		// }
+	}
+
+
+	private void handleP1ClickedOnLayOnStack() {
+
+		// TODO: advance some sort of flag that lets you know user can do this move?
+
+		
+		// TODO: only do it for relevant player
+		int[] num  = p1HandPile.getSelectedIndices();
+
+		// Only permit laying a single card at a time?
+		if (num.length == 1) {
+
+			// Move card from hand to the top of the stack
+			// TODO: only do it for relevant player
+			Card card = p1HandPile.getSelectedValue();
+			if (card != null) {
+				// TODO: only do it for relevant player
+				p1Hand.removeCard(card);
+				stackDeck.addCard(card);
+				topOfStack.setIcon(card.getCardImage());
+			}
+
+			// TODO: only do it for relevant player
+			if (p1Hand.isEmpty()) {
+				// TODO: check if we need to change an image or text when player's hand is empty
+				announceWinner();
+			}
+
+
+			// OTHER PLAYER'S TURN??????????
+			// TODO: pass turn
+			// TODO: advance otherflag
+			
+			// handleP2ClickedOnDeck();
+			// handleP2ClickedOnLay();
+			// TODO: MAKE CPU DISCARD A RANDOM CARD TO END TURN
+		}
+	}
+
+
 	public void actionPerformed(ActionEvent e) {
+
+		// Get event source
 		Object src = e.getSource();
 
 
-		if (p1Deck == src|| p2Deck == src) {
-
-			Card card = cardDeck.dealCard();
-
-			if (card != null) {
-				if (src == p1Deck) {
-					p1Hand.addElement(card);
-				} else {
-					p2Hand.addElement(card);
-				}
-			}
-
-			if (cardDeck.getSizeOfDeck() == 0) {
-				deckPile.setIcon(new ImageIcon(Card.directory + "blank.gif"));
-			}
-
+		// TODO: check that it was P1's turn
+		// TODO: duplicate logic for P2's case
+		if (p1Deck == src || p2Deck == src) {
+			handleP1ClickedOnDeck();
 		}
 
+
+		// TODO: check that it was P1's turn
+		// TODO: duplicate logic for P2's case
 		if (p1Stack == src || p2Stack == src) {
-
-			Card card = stackDeck.removeCard();
-
-			if (card != null) {
-				Card topCard = stackDeck.peek();
-
-				if (topCard != null) {
-					topOfStack.setIcon(topCard.getCardImage());
-				} else {
-					topOfStack.setIcon(new ImageIcon(Card.directory + "blank.gif"));
-				}
-
-				if (p1Stack == src) {
-					p1Hand.addElement(card);
-				} else {
-					p2Hand.addElement(card);
-				}
-
-			}
-
+			handleP1ClickedOnStack();
 		}
 
+
+		// TODO: check that it was P1's turn
+		// TODO: duplicate logic for P2's case
 		if (p1Lay == src) {
-			Object [] cards = p1HandPile.getSelectedValues();
-			if (cards != null) {
-				for (int i = 0; i < cards.length; i++) {
-					Card card = (Card)cards[i];
-					layCard(card);
-					p1Hand.removeElement(card);
-				}
-			}
+			handleP1ClickedOnLay();
 		}
 
 
-		if (p2Lay == src) {
-			Object [] cards = p2HandPile.getSelectedValues();
-			if (cards != null) {
-				for(int i = 0; i < cards.length; i++) {
-					Card card = (Card)cards[i];
-					layCard(card);
-					p2Hand.removeElement(card);
-				}
-			}
-		}
-
-
+		// TODO: check that it was P1's turn
+		// TODO: duplicate logic for P2's case
 		if (p1LayOnStack == src) {
-			int [] num  = p1HandPile.getSelectedIndices();
-
-			if (num.length == 1) {
-				Object obj = p1HandPile.getSelectedValue();
-				if (obj != null) {
-					p1Hand.removeElement(obj);
-					Card card = (Card) obj;
-					stackDeck.addCard(card);
-					topOfStack.setIcon(card.getCardImage());
-				}
-			}
-		}
-
-
-		if (p2LayOnStack == src) {
-			int [] num  = p2HandPile.getSelectedIndices();
-
-			if (num.length == 1) {
-				Object obj = p2HandPile.getSelectedValue();
-				if (obj != null) {
-					p2Hand.removeElement(obj);
-					Card card = (Card)obj;
-					stackDeck.addCard(card);
-					topOfStack.setIcon(card.getCardImage());
-				}
-			}
+			handleP1ClickedOnLayOnStack();
 		}
 
 	}

@@ -7,6 +7,7 @@ import proj2.core.Card;
 import proj2.interfaces.DeckInterface;
 
 
+// TODO: javadoc for this class
 public class Deck implements DeckInterface {
 
 
@@ -29,11 +30,7 @@ public class Deck implements DeckInterface {
   * @return a Card representing the next card in the deck.
   */
   public Card peek() {
-    if (deck.size() == 0) {
-      return null;
-    }
-
-    return deck.getLast();
+    return isEmpty() ? null : deck.getLast();
   }
 
 
@@ -50,6 +47,8 @@ public class Deck implements DeckInterface {
   * Returns the number of Cards on the deck.
   * @return int representing the number of cards on the deck.
   */
+  // NOTE: Unused because only used for comparing against 0
+  //       but the specifications dictate we need it.
   public int getSizeOfDeck() {
     return deck.size();
   }
@@ -60,11 +59,8 @@ public class Deck implements DeckInterface {
   * @return a Card representing the next card in the deck.
   */
   public Card dealCard() {
-    if (deck.size() == 0) {
-      return null;
-    }
-
-    return deck.removeFirst();
+    // TODO: shouldn't it be removeLast()?
+    return isEmpty() ? null : deck.removeFirst();
   }
 
 
@@ -73,11 +69,8 @@ public class Deck implements DeckInterface {
   * @return a Card representing the last card in the deck.
   */
   public Card removeCard() {
-    if (deck.size() == 0) {
-      return null;
-    }
-
-    return deck.removeLast();
+    // TODO: checkin with dealCard()
+    return isEmpty() ? null : deck.removeLast();
   }
 
 
@@ -94,7 +87,7 @@ public class Deck implements DeckInterface {
   * @return boolean which indicates whether deck is empty or not.
   */
   public boolean isEmpty() {
-    return deck.size() == 0;
+    return deck.isEmpty();
   }
 
 

@@ -17,48 +17,48 @@ public class MyStack<T> {
 
 
   /**
-   * Creates an empty stack with capacity given by the parameter <code>size</code>.
-   * @param size the capacity of the stack about to be created.
-   */
+  * Creates an empty stack with capacity given by the parameter <code>size</code>.
+  * @param size the capacity of the stack about to be created.
+  */
   MyStack(int size) {
-    stack = new ArrayList<>(size);
+    stack = new ArrayList<T>(size);
     capacity = size;
   }
 
 
   /**
-   * Returns the size of the stack (amount of elements in it).
-   * @return int of the number of elements in the stack
-   */
+  * Returns the size of the stack (amount of elements in it).
+  * @return int of the number of elements in the stack
+  */
   public int size() {
     return stack.size();
   }
 
 
   /**
-   * Returns <code>true</code> if the stack is empty, <code>false</code> otherwise.
-   * @return boolean representing if stack is empty.
-   */
+  * Returns <code>true</code> if the stack is empty, <code>false</code> otherwise.
+  * @return boolean representing if stack is empty.
+  */
   public boolean isEmpty() {
-    return stack.size() == 0;
+    return stack.isEmpty();
   }
 
 
   /**
-   *
-   *
-   */
+  * Returns <code>true</code> if the stack is full, <code>false</code> otherwise.
+  * @return boolean representing if stack is full.
+  */
   public boolean isFull() {
     return stack.size() == capacity;
   }
 
 
   /**
-   * Inserts an element into the top of the stack.
-   * @param c the element that will be inserted.
-   */
+  * Inserts an element into the top of the stack.
+  * @param c the element that will be inserted.
+  */
   public void push(T c) {
-    if (this.isFull()) {
+    if (isFull()) {
       System.out.println("Stack already full. Aborted.");
       return;
     }
@@ -68,11 +68,11 @@ public class MyStack<T> {
 
 
   /**
-   * Removes the element at the top of the stack, if any.
-   * @return the element at the top of the stack, or null if stack is empty.
-   */
+  * Removes the element at the top of the stack, if any.
+  * @return the element at the top of the stack, or null if stack is empty.
+  */
   public T pop() {
-    if (this.isEmpty()) {
+    if (isEmpty()) {
       System.out.println("Stack already empty. Aborted.");
       return null;
     }
@@ -85,11 +85,11 @@ public class MyStack<T> {
 
 
   /**
-   * Returns the element at the top of the stack without removing it, if any.
-   * @return the element at the top of the stack, or null if stack is empty.
-   */
+  * Returns the element at the top of the stack without removing it, if any.
+  * @return the element at the top of the stack, or null if stack is empty.
+  */
   public T top() {
-    if (this.isEmpty()) {
+    if (isEmpty()) {
       System.out.println("Stack is empty. Returning null.");
       return null;
     }

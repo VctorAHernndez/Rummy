@@ -22,12 +22,17 @@ public class Hand implements HandInterface, Comparable<Hand> {
   protected List<Card> hand = new ArrayList<Card>();
 
 
+  // TODO: Constructor?
+  // TODO: Why DefaultListModel?
+
+
   /**
   * Adds a card to this hand.
   * @param card card to be added to the current hand.
   */
   public void addCard(Card card) {
     hand.add(card);
+    // TODO: Why DefaultListModel? .addElement()
   }
 
 
@@ -38,6 +43,9 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @return the Card of interest, or null if not found.
   */
   public Card getCard(int index) {
+    if (index < 0 || index >= getNumberOfCards()) {
+      return null;
+    }
     return hand.get(index);
   }
 
@@ -49,12 +57,8 @@ public class Hand implements HandInterface, Comparable<Hand> {
   */
   public Card removeCard(Card card) {
     int index = hand.indexOf(card);
-
-    if (index < 0) {
-      return null;
-    }
-
-    return hand.remove(index);
+    return (index < 0) ? null : hand.remove(index);
+    // TODO: Why DefaultListModel? .removeElement()
   }
 
 
@@ -64,6 +68,9 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @return the card removed from the hand, or null if not found.
   */
   public Card removeCard(int index) {
+    if (index < 0 || index >= getNumberOfCards()) {
+      return null;
+    }
     return hand.remove(index);
   }
 
@@ -72,6 +79,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * The number of cards held in the hand.
   * @return number of cards currently held in the hand.
   */
+  // TODO: Héctor lo llamó Sizeof()?
   public int getNumberOfCards() {
     return hand.size();
   }
@@ -82,6 +90,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Sort is performed according to the order specified in the {@link Card} class.
   */
   // TODO: T extends Comparable<? super T> declared in method <T>sort(List<T>)
+  // TODO: Hector tiene su propia función de sort...
   public void sort() {
     Collections.sort(hand);
   }
@@ -91,6 +100,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Checks to see if the hand is empty.
   * @return <code>true</code> is the hand is empty.
   */
+  // TODO: Héctor lo llamó GameOver
   public boolean isEmpty() {
     return hand.isEmpty();
   }
@@ -101,6 +111,8 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @param card the card being searched for in the hand.
   * @return <code>true</code> if the card is present in the hand.
   */
+  // TODO: implement this
+  // TODO: Héctor tiene (return hand.contains(card);)
   public boolean containsCard(Card card) {
     return false;
   }
@@ -120,7 +132,8 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Searches for the first instance of a set (3 or 4 Cards of the same rank) in the hand.
   * @return  returns Card [] of Cards found in deck or <code>null</code> if not found.
   */
-  // TODO: implement
+  // TODO: implement this
+  // TODO: Héctor lo tiene hecho
   public Card[] findSet() {
     return null;
   }
@@ -156,6 +169,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Returns a description of the hand.
   * @return a list of cards held in the hand.
   */
+  // TODO: Héctor tiene su propia función "fancy"
   public String toString() {
     return hand.toString();
   }
@@ -169,7 +183,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   */
   // NOTE: NOT IN INTERFACE
   public int compareTo(Hand otherHand) {
-    return evaluateHand() - otherHand.evaluateHand();
+    return this.evaluateHand() - otherHand.evaluateHand();
   }
 
 
@@ -200,6 +214,10 @@ public class Hand implements HandInterface, Comparable<Hand> {
   public void discardHand() {
     hand.clear();
   }
+
+
+  // TODO: Hector tiene un removeObj?
+  // TODO: Héctor tiene un cardRank?
 
 
 }
