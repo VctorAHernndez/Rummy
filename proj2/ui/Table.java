@@ -44,34 +44,18 @@ public class Table extends JFrame implements ActionListener {
 	final private static int TABLE_WIDTH = 1200;
 	final private static int TABLE_HEIGHT = 700;
 	final private static int NUM_CARDS_IN_DECK = 52;
-	final private static int NUM_DEALT_CARDS = 9;
 	final private static int NUM_SETS = 13;
-
-
-	// GUI Component References
-	final private SetPanel[] setPanels = new SetPanel[NUM_SETS];
-
-	final public JLabel stackGraphic = new JLabel();
-	final public JLabel deckGraphic = new JLabel();
-
-	final public JButton p1DrawFromStackButton = new JButton("Draw from Stack");
-	final public JButton p2DrawFromStackButton = new JButton("Draw from Stack");
-
-	final public JButton p1DrawFromDeckButton = new JButton("Draw from Deck");
-	final public JButton p2DrawFromDeckButton = new JButton("Draw from Deck");
-
-	final public JButton p1LayOnTableButton = new JButton("Lay on Table");
-	final public JButton p2LayOnTableButton = new JButton("Lay on Table");
-
-	final public JButton p1DiscardButton = new JButton("Discard");
-	final public JButton p2DiscardButton = new JButton("Discard");
-
-	public JList<Card> p1HandPile;
-	public JList<Card> p2HandPile;
+	final private static int NUM_DEALT_CARDS = 9;
+	final private static String WINDOW_TITLE_TEXT = "The Card Game of the Century";
+	final private static String DRAW_FROM_STACK_BUTTON_TEXT = "Draw from Stack";
+	final private static String DRAW_FROM_DECK_BUTTON_TEXT = "Draw from Deck";
+	final private static String LAY_ON_TABLE_BUTTON_TEXT = "Lay on Table";
+	final private static String DISCARD_BUTTON_TEXT = "Discard";
+	final private static String BLANK_IMAGE_FILENAME = "blank.gif";
 
 
 	// Data Models
-	final private Deck cardDeck = new Deck(); // creates a deck of 52 cards
+	final private Deck cardDeck = new Deck(); // creates a shuffled deck of 52 cards
 	final private Stack stackDeck = new Stack(); // creates an empty stack
 
 	final private Hand p1Hand = new Hand();
@@ -81,6 +65,29 @@ public class Table extends JFrame implements ActionListener {
 	// Game flags
 	private boolean p1Turn = true;
 	private boolean currentPlayerHasDrawn = false;
+	private boolean p2IsCPU = true;
+
+
+	// GUI Component References
+	final private SetPanel[] setPanels = new SetPanel[NUM_SETS];
+
+	final public JLabel stackGraphic = new JLabel();
+	final public JLabel deckGraphic = new JLabel();
+
+	final public JButton p1DrawFromStackButton = new JButton(DRAW_FROM_STACK_BUTTON_TEXT);
+	final public JButton p2DrawFromStackButton = new JButton(DRAW_FROM_STACK_BUTTON_TEXT);
+
+	final public JButton p1DrawFromDeckButton = new JButton(DRAW_FROM_DECK_BUTTON_TEXT);
+	final public JButton p2DrawFromDeckButton = new JButton(DRAW_FROM_DECK_BUTTON_TEXT);
+
+	final public JButton p1LayOnTableButton = new JButton(LAY_ON_TABLE_BUTTON_TEXT);
+	final public JButton p2LayOnTableButton = new JButton(LAY_ON_TABLE_BUTTON_TEXT);
+
+	final public JButton p1DiscardButton = new JButton(DISCARD_BUTTON_TEXT);
+	final public JButton p2DiscardButton = new JButton(DISCARD_BUTTON_TEXT);
+
+	public JList<Card> p1HandPile = new JList<Card>(p1Hand.getHand());
+	public JList<Card> p2HandPile = new JList<Card>(p2Hand.getHand());
 
 
 	/**
@@ -91,13 +98,9 @@ public class Table extends JFrame implements ActionListener {
 
 
 		// Setup Table Layout
-		super("The Card Game of the Century");
+		super(WINDOW_TITLE_TEXT);
 		setLayout(new BorderLayout());
 		setSize(TABLE_WIDTH, TABLE_HEIGHT);
-
-
-		// Shuffle the Deck of 52 cards
-		cardDeck.shuffle();
 
 
 		// Create all the Set UI components in the table
@@ -201,17 +204,24 @@ public class Table extends JFrame implements ActionListener {
 	public void preparePlayerControls() {
 
 		// Create Player 1's interactive buttons
-		p1DrawFromStackButton.addActionListener(this);
 		p1DrawFromDeckButton.addActionListener(this);
+		p1DrawFromStackButton.addActionListener(this);
+		p1DrawFromStackButton.setEnabled(false); // stack is initially empty
 		p1LayOnTableButton.addActionListener(this);
+		p1LayOnTableButton.setEnabled(false);
 		p1DiscardButton.addActionListener(this);
+		p1DiscardButton.setEnabled(false);
 
 
 		// Create Player 2's interactive buttons
-		p2DrawFromStackButton.addActionListener(this);
 		p2DrawFromDeckButton.addActionListener(this);
+		p2DrawFromDeckButton.setEnabled(false);
+		p2DrawFromStackButton.addActionListener(this);
+		p2DrawFromStackButton.setEnabled(false);
 		p2LayOnTableButton.addActionListener(this);
+		p2LayOnTableButton.setEnabled(false);
 		p2DiscardButton.addActionListener(this);
+		p2DiscardButton.setEnabled(false);
 
 	}
 
@@ -227,20 +237,11 @@ public class Table extends JFrame implements ActionListener {
 			p1Hand.addCard(c);
 		}
 
-
-		// Add a UI component to show Player 1's hand
-		p1HandPile = new JList<Card>(p1Hand.getHand());
-
-
 		// Create Player 2's hand of 9 cards
 		for (int i = 0; i < NUM_DEALT_CARDS; i++) {
 			Card c = cardDeck.dealCard();
 			p2Hand.addCard(c);
 		}
-
-
-		// Add a UI component to show Player 2's hand
-		p2HandPile = new JList<Card>(p2Hand.getHand());
 
 	}
 
@@ -291,7 +292,7 @@ public class Table extends JFrame implements ActionListener {
 		
 		// Game Over
 		if (cardDeck.isEmpty()) {
-			deckGraphic.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+			deckGraphic.setIcon(new ImageIcon(Card.directory + BLANK_IMAGE_FILENAME));
 			announceWinner();
 		}
 
@@ -314,7 +315,7 @@ public class Table extends JFrame implements ActionListener {
 			if (topCard != null) {
 				stackGraphic.setIcon(topCard.getCardImage());
 			} else {
-				stackGraphic.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+				stackGraphic.setIcon(new ImageIcon(Card.directory + BLANK_IMAGE_FILENAME));
 			}
 
 			// Then add the removed card to the player's hand
@@ -385,12 +386,12 @@ public class Table extends JFrame implements ActionListener {
 	*/
 	private void makeMove(Hand playersHand, JList<Card> playersHandPile) {
 
-		// Draw from deck or stack
+		// Draw from Deck or Stack
 		if (stackDeck.isEmpty()) {
 			handleDrawFromDeck(playersHand);
 		} else {
 
-			// Choose whether to draw from deck or from stack
+			// Choose whether to draw from Deck or from Stack
 			int oneOrTwo = ThreadLocalRandom.current().nextInt(1, 3);
 			if (oneOrTwo == 1) {
 				handleDrawFromDeck(playersHand);
@@ -406,9 +407,47 @@ public class Table extends JFrame implements ActionListener {
 		handleLayOnTable(playersHand, playersHandPile);
 
 
-		// Discard to Stack and reset flags
+		// Discard to Stack
 		// TODO CRITICAL: SELECT A RANDOM CARD FROM THE HAND TO DISCARD (otherwise, it'll never discard)
 		handleDiscard(playersHand, playersHandPile);
+
+	}
+
+
+	/**
+	* Enable and disable the players' buttons depending on their turn and if they've drawn or not.
+	*/
+	private void setButtonStates() {
+
+		if (p1Turn) {
+
+			if (currentPlayerHasDrawn) {
+				p1DrawFromDeckButton.setEnabled(false);
+				p1DrawFromStackButton.setEnabled(false);
+				p1LayOnTableButton.setEnabled(true);
+				p1DiscardButton.setEnabled(true);
+			} else {
+				p1DrawFromDeckButton.setEnabled(true);
+				p1DrawFromStackButton.setEnabled(!stackDeck.isEmpty());
+				p1LayOnTableButton.setEnabled(false);
+				p1DiscardButton.setEnabled(false);
+			}
+
+		} else {
+
+			if (currentPlayerHasDrawn) {
+				p2DrawFromDeckButton.setEnabled(false);
+				p2DrawFromStackButton.setEnabled(false);
+				p2LayOnTableButton.setEnabled(true);
+				p2DiscardButton.setEnabled(true);
+			} else {
+				p2DrawFromDeckButton.setEnabled(true);
+				p2DrawFromStackButton.setEnabled(!stackDeck.isEmpty());
+				p2LayOnTableButton.setEnabled(false);
+				p2DiscardButton.setEnabled(false);
+			}
+
+		}
 
 	}
 
@@ -424,6 +463,7 @@ public class Table extends JFrame implements ActionListener {
 
 
 		if (p1Turn) {
+
 
 			// Draw from Deck
 			if (p1DrawFromDeckButton == src && !currentPlayerHasDrawn) {
@@ -457,18 +497,57 @@ public class Table extends JFrame implements ActionListener {
 				currentPlayerHasDrawn = false;
 
 				// AI makes a move
-				// TODO IMPROVEMENT: make ai move only if flag is set
-				makeMove(p2Hand, p2HandPile);
-				p1Turn = true;
+				if (p2IsCPU) {
+					makeMove(p2Hand, p2HandPile);
+					p1Turn = true;
+				}
 
 			}
 
-		} else {
 
-			// TODO IMPROVEMENT: implement second interactive player
-			// TODO IMPROVEMENT: implement AI for first player
+		} else if (!p2IsCPU) { // it's Player 2's turn and he's not a CPU
+
+
+			// Draw from Deck
+			if (p2DrawFromDeckButton == src && !currentPlayerHasDrawn) {
+				handleDrawFromDeck(p2Hand);
+				currentPlayerHasDrawn = true;
+			}
+
+
+			// Draw from Stack (if there's at least one card in it)
+			if (p2DrawFromStackButton == src && !currentPlayerHasDrawn && !stackDeck.isEmpty()) {
+				handleDrawFromStack(p2Hand);
+				currentPlayerHasDrawn = true;
+			}
+
+
+			// Lay set on table
+			if (p2LayOnTableButton == src && currentPlayerHasDrawn) {
+				handleLayOnTable(p2Hand, p2HandPile);
+			}
+
+
+			// Discard to Stack
+			if (p2DiscardButton == src && currentPlayerHasDrawn) {
+
+				// Only permit discarding of one card at a time (instead of multiple)
+				int[] num = p2HandPile.getSelectedIndices();
+				if (num.length != 1) return;
+
+				handleDiscard(p2Hand, p2HandPile);
+				p1Turn = true;
+				currentPlayerHasDrawn = false;
+
+			}
+
 
 		}
+
+
+		// After action has been processed, change button states accordingly
+		setButtonStates();
+
 
 	}
 

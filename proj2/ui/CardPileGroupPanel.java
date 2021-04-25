@@ -11,10 +11,25 @@ import javax.swing.JPanel;
 import proj2.core.Card;
 
 
+/**
+ * Creates the images and labels of the Deck and stack.
+ */
 @SuppressWarnings("serial")
 class CardPileGroupPanel extends JPanel {
 
+
+  // Class attributes
+  final private static String STACK_LABEL_TEXT = "Stack";
+  final private static String DECK_LABEL_TEXT = "Deck";
+  final private static String BLANK_IMAGE_FILENAME = "blank.gif";
+  final private static String CARDBACK_IMAGE_FILENAME = "cardback.png";
+
+
+  /**
+  * Creates the images and labels of the Deck and stack.
+  */
   public CardPileGroupPanel(JLabel stackGraphic, JLabel deckGraphic) {
+
     super();
 
     // Create container where the Deck and the Stack sit in the table
@@ -26,11 +41,11 @@ class CardPileGroupPanel extends JPanel {
     JPanel stackGroup = new JPanel();
     stackGroup.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-    JLabel stackLabel = new JLabel("Stack");
+    JLabel stackLabel = new JLabel(STACK_LABEL_TEXT);
     stackLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
     stackGroup.add(stackLabel);
 
-    stackGraphic.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+    stackGraphic.setIcon(new ImageIcon(Card.directory + BLANK_IMAGE_FILENAME));
     stackGraphic.setAlignmentY(Component.CENTER_ALIGNMENT);
     stackGroup.add(stackGraphic);
 
@@ -42,11 +57,11 @@ class CardPileGroupPanel extends JPanel {
     JPanel deckGroup = new JPanel();
     deckGroup.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-    JLabel deckLabel = new JLabel("Deck");
+    JLabel deckLabel = new JLabel(DECK_LABEL_TEXT);
     deckLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
     deckGroup.add(deckLabel);
 
-    deckGraphic.setIcon(new ImageIcon(Card.directory + "b.gif"));
+    deckGraphic.setIcon(new ImageIcon(Card.directory + CARDBACK_IMAGE_FILENAME));
     deckGraphic.setAlignmentY(Component.CENTER_ALIGNMENT);
     deckGroup.add(deckGraphic);
 
@@ -55,7 +70,7 @@ class CardPileGroupPanel extends JPanel {
     this.add(deckGroup);
     this.add(Box.createGlue());
 
-
   }
+
 
 }

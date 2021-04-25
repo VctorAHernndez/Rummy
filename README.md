@@ -10,7 +10,7 @@ This project is an interactive version of the Rummy card game. Provided some bas
 1. Clone this repository
 2. `cd` into this repository
 3. Compile the source files with `javac proj2/Proj2.java`
-4. Run the program and log the output with `java proj2.Proj2`
+4. Run the program `java proj2.Proj2`
 
 ## Rules of the game
 
@@ -18,15 +18,17 @@ This project is an interactive version of the Rummy card game. Provided some bas
 2. The next card from the Deck is turned face-up and placed in the discard pile (i.e. Stack).
 3. In each turn, a player:
 	1. Draws from the Deck or Stack
-	2. Does some optional options:
+	2. Does some optional actions:
 		* Lay a Set on the table
 		* Lay a Run on the table
-		* Lay cards that fit in sets or runs already on the table
-	3. Discards to the Stack (~~If a player is able to lay all remaining cards on the table at the end of a turn, the discard is optional????~~)
+		* Lay cards that fit in Sets or Runs already on the table
+	3. Discards to the Stack
+		* (~~Though, if a player is able to lay all remaining cards on the table at the end of a turn, the discard is optional~~)?
 4. The game is over when either:
 	* One player is out of cards, or...
-	* the cards from the stock pile are exhausted
-		* If the cards from the Deck are exhausted, all players count the points remaining in their hands and the lowest value hand wins (ties are possible!)
+		* In which case, said player is crowned winner
+	* The cards from the stock pile are exhausted
+		* If the cards from the Deck are exhausted, all players count the points remaining in their hands, and the lowest value hand wins (ties are possible!)
 
 ### Points Scheme
 
@@ -57,7 +59,7 @@ This project is an interactive version of the Rummy card game. Provided some bas
 * Write the ~`Pile`~ `Set`? class, which:
 	* implements the ~`PileInterface`~ `SetInterface`? ~provided~ not provided
 	* ~`Pile`~ `Set`? should derive from your `MyStack` class
-* You may not change the provided interfaces (but you can add methods to the classes themselves)
+* You may __NOT__ change the provided interfaces (but you can add methods to the classes themselves)
 * The Computer Opponent AI can make random choices (like decide whether to draw from the stock pile or the discard pile), but it must at the very least look for Sets in the hand...
 	* if you implement it so that it can look for Runs as well, you will receive EXTRA CREDIT
 	* if you implement it so that it makes smarter play routines, you will receive EXTRA CREDIT
@@ -65,19 +67,19 @@ This project is an interactive version of the Rummy card game. Provided some bas
 * The program takes two kinds of command line arguments ~(which is already processed in the provided code)~:
 	* the `-h` flag enables logging of actions (the default is no logging)
 	* ~the `-0`, `-1`, and `-2` flags indicate the number of interactive players in the game (the default is `-0`, indicating both players are automated)~
-* By default, the provided code can be run directly the `Table.java` file, whose `main` method should be extracted into a separate file called `Proj2.java`
+* By default, the provided code can be run directly from the `Table.java` file, whose `main` method should be extracted into a separate file called `Proj2.java`
 * You should wrap the whole project in a package named `proj2`
 * The last line should be either `Player 1 Wins!`, `Player 2 Wins!` or `It's a tie!`
 
 ### Notes and Hints
 
 * The project is in Java 13 SE
-* To create the file containing your logs, use the command `java proj2.Proj2 > p2-output.txt` (after compiling, of course)
+* To create the file containing your logs, use the command `java proj2.Proj2 > output.txt` (after compiling, of course)
 
 ### Deadlines and Disclaimers
 
 * By the intermediate deadline, you should turn in a description of the classes you intend to create, along with the specification of their attributes and methods. You may change these choices later, but you must submit the initial design regardless.
-* This project is an OPEN assignment (i.e. write your own code, and you're allowed to help others as long as you complete it by yourself)
+* This project is an __OPEN__ assignment (i.e. write your own code, and you're allowed to help others as long as you complete it by yourself)
 * You can't copy anyone else's code, have someone else write your code for you nor submit someone else's code as your own
 * Any help you receive must be documented, including discussion with other people, books, papers, and web resources (all documented in the `README.md` file):
 	* if you received no help, say so
@@ -86,17 +88,17 @@ This project is an interactive version of the Rummy card game. Provided some bas
 
 ### More Extra Credit
 
-* The card display in the UI is minimalist. There are card images available in the folder `lscards`; use them to spruce up the appearance of your game (+ 5pts)
-* Modify the `Table` so that the game begins with the first card being on the Stack (+ 5pts)
-* The base project only requires Sets to be discovered and laid on the table. Extend the program to include Runs using an interface named `RunInterface.java` and its class `Run.java` (+ 5pts)
-* If you created the `RunInterface`, make it `SetInterface`'s super interface ~to deal with both the sets and the runs~ (+ 5pts)
-* ~Add some heuristics to improve performance in automated play (discussing each rule you add and why you expect it to improve performance in your `README.md` file) (+ 2pts per rule added, for a max of 4 rules)~
-* The implement an additional flag when running the program indicating the number of interactive players in the game (i.e. `-0`, `-1` or `-2`), where the default is 2 interactive players (+ 10pts)
-* Write a two-page paper briefly summarizing the research challenges of intelligent game play and discussing how AI research might be used to iprove your Rummy program. Your paper should be gramatically correct, include appropriate bibliographic references, and be submitted in `pdf` format (+ 10pts)
+* The card display in the UI is minimalist. There are card images available in the folder ~`lscards`~ `cards`; use them to spruce up the appearance of your game _(+ 5pts)_
+* Modify the `Table` so that the game begins with the first card being on the Stack _(+ 5pts)_
+* The base project only requires Sets to be discovered and laid on the table. Extend the program to include Runs using an interface named `RunInterface.java` and its class `Run.java` _(+ 5pts)_
+* If you created the `RunInterface`, make it `SetInterface`'s super interface ~to deal with both the sets and the runs~ _(+ 5pts)_
+* ~Add some heuristics to improve performance in automated play (discussing each rule you add and why you expect it to improve performance in your `README.md` file) _(+ 2pts per rule added, for a max of 4 rules)_~
+* The implement an additional flag when running the program indicating the number of interactive players in the game (i.e. `-0`, `-1` or `-2`), where the default is 2 interactive players _(+ 10pts)_
+* Write a two-page paper briefly summarizing the research challenges of intelligent game play and discussing how AI research might be used to iprove your Rummy program. Your paper should be gramatically correct, include appropriate bibliographic references, and be submitted in `pdf` format _(+ 10pts)_
 
 ### Deliverables
 
-* `*.java` files (including Proj2.java and Card.java)
-* `p2-output.txt`
+* `*.java` files (including `Proj2.java` and `Card.java`)
+* `output.txt`
 * `README.md` (including instructions for how to run and interact your GUI)
 * Any items required for extra credit options

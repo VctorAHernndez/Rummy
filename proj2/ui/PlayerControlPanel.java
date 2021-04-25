@@ -12,9 +12,16 @@ import javax.swing.JPanel;
 import proj2.core.Card;
 
 
+/**
+ * Creates a player's controls, including Draw, Discard and Lay buttons.
+ */
 @SuppressWarnings("serial")
 class PlayerControlPanel extends JPanel {
 
+
+  /**
+  * Creates a player's controls, including Draw, Discard and Lay buttons.
+  */
   public PlayerControlPanel(String name, JList<Card> hand, JButton drawFromStack, JButton drawFromDeck, JButton layOnTableButton, JButton discardButton) {
 
     // model = hand.createSelectionModel();
@@ -25,13 +32,13 @@ class PlayerControlPanel extends JPanel {
     label.setAlignmentX(Component.CENTER_ALIGNMENT);
     this.add(label);
 
-    drawFromStack.setAlignmentX(Component.CENTER_ALIGNMENT);
-    // add(Box.createGlue());
-    this.add(drawFromStack);
-
     drawFromDeck.setAlignmentX(Component.CENTER_ALIGNMENT);
     // add(Box.createGlue());
     this.add(drawFromDeck);
+
+    drawFromStack.setAlignmentX(Component.CENTER_ALIGNMENT);
+    // add(Box.createGlue());
+    this.add(drawFromStack);
 
     layOnTableButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     this.add(layOnTableButton);
@@ -44,5 +51,6 @@ class PlayerControlPanel extends JPanel {
     this.add(Box.createGlue());
 
   }
+
 
 }

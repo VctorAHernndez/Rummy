@@ -32,6 +32,8 @@ public class Deck implements DeckInterface {
         deck.add(card);
       }
     }
+
+    shuffle();
   }
 
 
