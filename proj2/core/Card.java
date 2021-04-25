@@ -16,7 +16,7 @@ public class Card implements CardInterface, Comparable<Card> {
 
   // Class attributes
   final public static char[] suit = {'c','d','h','s'};
-  final public static char [] rank = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
+  final public static char[] rank = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
   final public static String directory = "cards/";
 
 
@@ -34,11 +34,12 @@ public class Card implements CardInterface, Comparable<Card> {
   * @param cardFace the face image of this card.
   */
   // NOTE: NOT IN INTERFACE
-  public Card(char suit, char rank, ImageIcon cardFace) {
-    suitValue = suit;
-    rankValue = rank;
-    cardImage = cardFace;
-  }
+  // TODO: find out if this is used or not
+  // public Card(char suit, char rank, ImageIcon cardFace) {
+    // suitValue = suit;
+    // rankValue = rank;
+    // cardImage = cardFace;
+  // }
 
 
   /**
@@ -47,8 +48,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @param rank the rank value of this card
   */
   // NOTE: NOT IN INTERFACE
-  // TODO: find out if this is used or not
-  public Card(char suit,char rank) {
+  public Card(char suit, char rank) {
     suitValue = suit;
     rankValue = rank;
     cardImage = new ImageIcon(getImageFile());
@@ -162,6 +162,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * less than, equal to, or greater than the referenced card.
   */
   // NOTE: NOT IN INTERFACE
+  // TODO: find out if this is used or not
   public int compareTo(Card otherCard) {
     int rankDiff = getRankIndex(this.suitValue) - getRankIndex(otherCard.suitValue);
     return rankDiff;

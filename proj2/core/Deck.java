@@ -7,7 +7,10 @@ import proj2.core.Card;
 import proj2.interfaces.DeckInterface;
 
 
-// TODO: javadoc for this class
+/**
+ * Represents the basic functionality of a deck of cards,
+ * including adding, removing, and shuffling cards.
+ */
 public class Deck implements DeckInterface {
 
 
@@ -17,11 +20,18 @@ public class Deck implements DeckInterface {
 
 
   /**
-  * Creates an empty deck of cards.
+  * Creates a full deck of 52 cards.
   */
   // NOTE: NOT IN INTERFACE
   public Deck() {
     deck = new LinkedList<Card>();
+
+    for (int i = 0; i < Card.suit.length; i++) {
+      for (int j = 0; j < Card.rank.length; j++) {
+        Card card = new Card(Card.suit[i], Card.rank[j]);
+        deck.add(card);
+      }
+    }
   }
 
 
@@ -94,8 +104,9 @@ public class Deck implements DeckInterface {
   /**
   * Restores the deck to "full deck" state (i.e. empty and ready to receive cards).
   */
+  // NOTE: Unused but the specifications dictate we need it.
   public void restoreDeck() {
-    deck.removeAll(deck); // TODO: not sure if kosher
+    deck.removeAll(deck);
   }
 
 

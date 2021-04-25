@@ -1,8 +1,6 @@
 package proj2.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.swing.DefaultListModel;
 
 import proj2.core.Card;
 import proj2.interfaces.HandInterface;
@@ -19,11 +17,16 @@ public class Hand implements HandInterface, Comparable<Hand> {
 
   // Instance attributes
   // NOTE: NOT IN INTERFACE
-  protected List<Card> hand = new ArrayList<Card>();
+  final private DefaultListModel<Card> hand;
 
 
-  // TODO: Constructor?
-  // TODO: Why DefaultListModel?
+  /**
+  * Creates an empty hand of cards.
+  */
+  // NOTE: NOT IN INTERFACE
+  public Hand() {
+    hand = new DefaultListModel<Card>();
+  }
 
 
   /**
@@ -31,8 +34,8 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @param card card to be added to the current hand.
   */
   public void addCard(Card card) {
-    hand.add(card);
-    // TODO: Why DefaultListModel? .addElement()
+    hand.addElement(card);
+    this.sort();
   }
 
 
@@ -56,9 +59,9 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @return the card removed from the hand, or null if not found.
   */
   public Card removeCard(Card card) {
-    int index = hand.indexOf(card);
-    return (index < 0) ? null : hand.remove(index);
-    // TODO: Why DefaultListModel? .removeElement()
+    boolean removed = hand.removeElement(card);
+    this.sort();
+    return removed ? card : null;
   }
 
 
@@ -71,7 +74,9 @@ public class Hand implements HandInterface, Comparable<Hand> {
     if (index < 0 || index >= getNumberOfCards()) {
       return null;
     }
-    return hand.remove(index);
+    Card card = hand.remove(index);
+    this.sort();
+    return card;
   }
 
 
@@ -79,7 +84,6 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * The number of cards held in the hand.
   * @return number of cards currently held in the hand.
   */
-  // TODO: Héctor lo llamó Sizeof()?
   public int getNumberOfCards() {
     return hand.size();
   }
@@ -92,7 +96,20 @@ public class Hand implements HandInterface, Comparable<Hand> {
   // TODO: T extends Comparable<? super T> declared in method <T>sort(List<T>)
   // TODO: Hector tiene su propia función de sort...
   public void sort() {
-    Collections.sort(hand);
+    // Collections.sort(hand);
+
+    int n = hand.size();
+
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (hand.get(j).compareTo(hand.get(j+1)) > 0) {
+          Card temp = hand.get(j);
+          hand.set(j, hand.get(j+1));
+          hand.set(j+1, temp);
+        } 
+      }
+    }
+
   }
 
 
@@ -100,7 +117,6 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Checks to see if the hand is empty.
   * @return <code>true</code> is the hand is empty.
   */
-  // TODO: Héctor lo llamó GameOver
   public boolean isEmpty() {
     return hand.isEmpty();
   }
@@ -111,10 +127,9 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @param card the card being searched for in the hand.
   * @return <code>true</code> if the card is present in the hand.
   */
-  // TODO: implement this
-  // TODO: Héctor tiene (return hand.contains(card);)
+  // TODO: validate this?
   public boolean containsCard(Card card) {
-    return false;
+    return hand.contains(card);
   }
 
 
@@ -146,7 +161,6 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * is equal to the summation of the points of all the cards held in the hand.
   * @return an integer corresponding to the rating of the hand.
   */
-  // TODO: not sure we have to do this.....because we are just laying down the cards.....
   public int evaluateHand() {
     int value = 0;
 
@@ -188,22 +202,33 @@ public class Hand implements HandInterface, Comparable<Hand> {
 
 
   /**
+  * Returns a reference to the internal Cards list.
+  * @return reference to the list of cards in the hand.
+  */
+  // NOTE: NOT IN INTERFACE
+  public DefaultListModel<Card> getHand() {
+    return this.hand;
+  }
+
+
+  /**
   * Replaces the specified card with another card. Only the first
   * instance of the targeted card is replaced. No action occurs if
   * the targeted card is not present in the hand.
   * @return <code>true</code> if the replacement occurs.
   */
   // NOTE: NOT IN INTERFACE
-  public boolean replaceCard(Card oldCard, Card replacementCard) {
-    int location = findCard(oldCard);
+  // TODO: unused?
+  // public boolean replaceCard(Card oldCard, Card replacementCard) {
+    // int location = findCard(oldCard);
 
-    if (location < 0) {
-      return false;
-    }
+    // if (location < 0) {
+      // return false;
+    // }
 
-    hand.set(location, replacementCard);
-    return true;
-  }
+    // hand.set(location, replacementCard);
+    // return true;
+  // }
 
 
 
@@ -211,13 +236,10 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Removes all the cards from the hand, leaving an empty hand.
   */
   // NOTE: NOT IN INTERFACE
-  public void discardHand() {
-    hand.clear();
-  }
-
-
-  // TODO: Hector tiene un removeObj?
-  // TODO: Héctor tiene un cardRank?
+  // TODO: unused?
+  // public void discardHand() {
+    // hand.clear();
+  // }
 
 
 }

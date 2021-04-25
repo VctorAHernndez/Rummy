@@ -20,7 +20,7 @@ public class MyStack<T> {
   * Creates an empty stack with capacity given by the parameter <code>size</code>.
   * @param size the capacity of the stack about to be created.
   */
-  MyStack(int size) {
+  public MyStack(int size) {
     stack = new ArrayList<T>(size);
     capacity = size;
   }
@@ -88,7 +88,7 @@ public class MyStack<T> {
   * Returns the element at the top of the stack without removing it, if any.
   * @return the element at the top of the stack, or null if stack is empty.
   */
-  public T top() {
+  public T peek() {
     if (isEmpty()) {
       System.out.println("Stack is empty. Returning null.");
       return null;

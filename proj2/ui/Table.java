@@ -7,6 +7,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.List;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -20,7 +24,10 @@ import javax.swing.JPanel;
 import proj2.core.Card;
 import proj2.core.Deck;
 import proj2.core.Hand;
-import proj2.ui.HandPanel;
+import proj2.core.Stack;
+
+import proj2.ui.CardPileGroupPanel;
+import proj2.ui.PlayerControlPanel;
 import proj2.ui.SetPanel;
 
 
@@ -29,226 +36,219 @@ import proj2.ui.SetPanel;
 * The GUI is simulating a playing table
 * @author Víctor A. Hernández Castro
 */
+@SuppressWarnings("serial")
 public class Table extends JFrame implements ActionListener {
 
 
 	// Class attributes
+	final private static int TABLE_WIDTH = 1200;
+	final private static int TABLE_HEIGHT = 700;
+	final private static int NUM_CARDS_IN_DECK = 52;
 	final private static int NUM_DEALT_CARDS = 9;
 	final private static int NUM_SETS = 13;
 
 
-	// GUI Components
-	JPanel player1;
-	JPanel player2;
-	JPanel deckPiles;
-	JLabel deck;
-	JLabel stack;
-	JList p1HandPile;
-	JList p2HandPile;
+	// GUI Component References
+	final private SetPanel[] setPanels = new SetPanel[NUM_SETS];
 
-	SetPanel [] setPanels = new SetPanel[NUM_SETS];
-	JLabel topOfStack;
-	JLabel deckPile;
+	final public JLabel stackGraphic = new JLabel();
+	final public JLabel deckGraphic = new JLabel();
 
-	JButton p1Stack;
-	JButton p2Stack;
+	final public JButton p1DrawFromStackButton = new JButton("Draw from Stack");
+	final public JButton p2DrawFromStackButton = new JButton("Draw from Stack");
 
-	JButton p1Deck;
-	JButton p2Deck;
+	final public JButton p1DrawFromDeckButton = new JButton("Draw from Deck");
+	final public JButton p2DrawFromDeckButton = new JButton("Draw from Deck");
 
-	JButton p1Lay;
-	JButton p2Lay;
+	final public JButton p1LayOnTableButton = new JButton("Lay on Table");
+	final public JButton p2LayOnTableButton = new JButton("Lay on Table");
 
-	JButton p1LayOnStack;
-	JButton p2LayOnStack;
+	final public JButton p1DiscardButton = new JButton("Discard");
+	final public JButton p2DiscardButton = new JButton("Discard");
+
+	public JList<Card> p1HandPile;
+	public JList<Card> p2HandPile;
 
 
 	// Data Models
-	Deck cardDeck;
-	Deck stackDeck;
+	final private Deck cardDeck = new Deck(); // creates a deck of 52 cards
+	final private Stack stackDeck = new Stack(); // creates an empty stack
 
-	// TODO: CHANGE TO HAND LIKE HECTOR DID?
-	Hand p1Hand;
-	Hand p2Hand;
-
-	// TODO: figure what this is for hector
-	// int playerturn = 0;
-	// int playerlayStack = 0;
-	// int playerlay = 0;
+	final private Hand p1Hand = new Hand();
+	final private Hand p2Hand = new Hand();
 
 
+	// Game flags
+	private boolean p1Turn = true;
+	private boolean currentPlayerHasDrawn = false;
+
+
+	/**
+	* Constructs the table where the Rummy game will take place.
+	* Takes care of the UI and the logic as well.
+	*/
 	public Table() {
 
 
 		// Setup Table Layout
 		super("The Card Game of the Century");
 		setLayout(new BorderLayout());
-		setSize(1200,700);
+		setSize(TABLE_WIDTH, TABLE_HEIGHT);
 
 
-		// Create Deck with its 52 cards and shuffle it
-		cardDeck = new Deck();
-		for (int i = 0; i < Card.suit.length; i++) {
-			for (int j = 0; j < Card.rank.length; j++) {
-				Card card = new Card(Card.suit[i], Card.rank[j]);
-				cardDeck.addCard(card);
-			}
-		}
-
+		// Shuffle the Deck of 52 cards
 		cardDeck.shuffle();
 
 
-		// Create Stack Deck for later
-		stackDeck = new Deck();
+		// Create all the Set UI components in the table
+		this.createSetPanelsInTable();
 
 
+		// Initialize all the interactive components for both players
+		this.preparePlayerControls();
 
-		JPanel top = new JPanel();
 
-		for (int i = 0; i < Card.rank.length;i++) {
+		// Prepare each players' hands
+		this.dealCardsToPlayers();
+
+
+		// Initialize the center section of the table
+		JPanel centerSection = new JPanel(new GridLayout(1, 3));
+
+
+		// Add Player 1's controls to the leftmost part of the table's middle section
+		centerSection.add(new PlayerControlPanel("Player 1", p1HandPile, p1DrawFromStackButton, p1DrawFromDeckButton, p1LayOnTableButton, p1DiscardButton));
+
+
+		// Add the Deck and Stack images to the center of the middle section
+		centerSection.add(new CardPileGroupPanel(stackGraphic, deckGraphic));
+
+
+		// Add Player 2's controls to the rightmost part of the table's middle section
+		centerSection.add(new PlayerControlPanel("Player 2", p2HandPile, p2DrawFromStackButton, p2DrawFromDeckButton, p2LayOnTableButton, p2DiscardButton));
+
+
+		// Add middle section to the actual global center
+		this.add(centerSection, BorderLayout.CENTER);
+
+
+		// TODO: after dealing to both players, the next card should be turned face-up to initiate the discard pile (Stack)
+		// TODO IMPROVEMENT: terminate program after hitting closing window
+
+
+	}
+
+
+	/**
+	* Creates slots in the Table where the players can lay their sets.
+	*/
+	public void createSetPanelsInTable() {
+
+		// Instantiate the 13 set piles in the UI
+		for (int i = 0; i < Card.rank.length; i++) {
 			setPanels[i] = new SetPanel(Card.getRankIndex(Card.rank[i]));
 		}
 
 
-		top.add(setPanels[0]);
-		top.add(setPanels[1]);
-		top.add(setPanels[2]);
-		top.add(setPanels[3]);
+		// Add 4 set piles in the UI at the top
+		JPanel topPanels = new JPanel();
+		topPanels.add(setPanels[0]);
+		topPanels.add(setPanels[1]);
+		topPanels.add(setPanels[2]);
+		topPanels.add(setPanels[3]);
 
-		player1 = new JPanel();
-
-		player1.add(top);
-
-
-
-
-		add(player1, BorderLayout.NORTH);
-		JPanel bottom = new JPanel();
+		JPanel northSection = new JPanel();
+		northSection.add(topPanels);
+		this.add(northSection, BorderLayout.NORTH);
 
 
-		bottom.add(setPanels[4]);
-		bottom.add(setPanels[5]);
-		bottom.add(setPanels[6]);
-		bottom.add(setPanels[7]);
-		bottom.add(setPanels[8]);
+		// Add 5 set piles in the UI at the bottom
+		JPanel bottomPanels = new JPanel();
+		bottomPanels.add(setPanels[4]);
+		bottomPanels.add(setPanels[5]);
+		bottomPanels.add(setPanels[6]);
+		bottomPanels.add(setPanels[7]);
+		bottomPanels.add(setPanels[8]);
 
-		player2 = new JPanel();
-
-
-
-
-		player2.add(bottom);
-		add(player2, BorderLayout.SOUTH);
+		JPanel southSection = new JPanel();
+		southSection.add(bottomPanels);
+		this.add(southSection, BorderLayout.SOUTH);
 
 
-		JPanel middle = new JPanel(new GridLayout(1,3));
-
-		p1Stack = new JButton("Stack");
-		p1Stack.addActionListener(this);
-		p1Deck = new JButton("Deck ");
-		p1Deck.addActionListener(this);
-		p1Lay = new JButton("Lay  ");
-		p1Lay.addActionListener(this);
-		p1LayOnStack = new JButton("LayOnStack");
-		p1LayOnStack.addActionListener(this);
-
-
-		Card[] cardsPlayer1 = new Card[NUM_DEALT_CARDS];
-		deal(cardsPlayer1);
-		p1Hand = new Hand();
-		for (int i = 0; i < cardsPlayer1.length; i++) {
-			p1Hand.addCard(cardsPlayer1[i]);
-		}
-		p1HandPile = new JList(p1Hand);
-
-
-		middle.add(new HandPanel("Player 1", p1HandPile, p1Stack, p1Deck, p1Lay, p1LayOnStack));
-
-		deckPiles = new JPanel();
-		deckPiles.setLayout(new BoxLayout(deckPiles, BoxLayout.Y_AXIS));
-		deckPiles.add(Box.createGlue());
-		JPanel left = new JPanel();
-		left.setAlignmentY(Component.CENTER_ALIGNMENT);
-
-
-		stack = new JLabel("Stack");
-		stack.setAlignmentY(Component.CENTER_ALIGNMENT);
-
-		left.add(stack);
-		topOfStack = new JLabel();
-		topOfStack.setIcon(new ImageIcon(Card.directory + "blank.gif"));
-		topOfStack.setAlignmentY(Component.CENTER_ALIGNMENT);
-		left.add(topOfStack);
-		deckPiles.add(left);
-		deckPiles.add(Box.createGlue());
-
-		JPanel right = new JPanel();
-		right.setAlignmentY(Component.CENTER_ALIGNMENT);
-
-		deck = new JLabel("Deck");
-
-		deck.setAlignmentY(Component.CENTER_ALIGNMENT);
-		right.add(deck);
-		deckPile = new JLabel();
-		deckPile.setIcon(new ImageIcon(Card.directory + "b.gif"));
-		deckPile.setAlignmentY(Component.CENTER_ALIGNMENT);
-		right.add(deckPile);
-		deckPiles.add(right);
-		deckPiles.add(Box.createGlue());
-		middle.add(deckPiles);
-
-
-		p2Stack = new JButton("Stack");
-		p2Stack.addActionListener(this);
-		p2Deck = new JButton("Deck ");
-		p2Deck.addActionListener(this);
-		p2Lay = new JButton("Lay  ");
-		p2Lay.addActionListener(this);
-		p2LayOnStack = new JButton("LayOnStack");
-		p2LayOnStack.addActionListener(this);
-
-		Card [] cardsPlayer2 = new Card[NUM_DEALT_CARDS];
-		deal(cardsPlayer2);
-		p2Hand = new Hand();
-
-		for (int i = 0; i < cardsPlayer2.length; i++) {
-			p2Hand.addCard(cardsPlayer2[i]);
-		}
-
-		p2HandPile = new JList(p2Hand);
-
-		middle.add(new HandPanel("Player 2", p2HandPile, p2Stack, p2Deck, p2Lay, p2LayOnStack));
-
-		add(middle, BorderLayout.CENTER);
-
-		JPanel leftBorder = new JPanel(new GridLayout(2,1));
-
-
+		// Add 2 set piles in the UI at the left
+		JPanel westSection = new JPanel(new GridLayout(2, 1));
 		setPanels[9].setLayout(new BoxLayout(setPanels[9], BoxLayout.Y_AXIS));
 		setPanels[10].setLayout(new BoxLayout(setPanels[10], BoxLayout.Y_AXIS));
-		leftBorder.add(setPanels[9]);
-		leftBorder.add(setPanels[10]);
-		add(leftBorder, BorderLayout.WEST);
+		westSection.add(setPanels[9]);
+		westSection.add(setPanels[10]);
+		this.add(westSection, BorderLayout.WEST);
 
-		JPanel rightBorder = new JPanel(new GridLayout(2,1));
 
+		// Add 2 set piles in the UI at the right
+		JPanel eastSection = new JPanel(new GridLayout(2, 1));
 		setPanels[11].setLayout(new BoxLayout(setPanels[11], BoxLayout.Y_AXIS));
 		setPanels[12].setLayout(new BoxLayout(setPanels[12], BoxLayout.Y_AXIS));
-		rightBorder.add(setPanels[11]);
-		rightBorder.add(setPanels[12]);
-		add(rightBorder, BorderLayout.EAST);
+		eastSection.add(setPanels[11]);
+		eastSection.add(setPanels[12]);
+		this.add(eastSection, BorderLayout.EAST);
 
 	}
 
 
+	/**
+	* Registers the buttons in the UI to enable user interaction.
+	*/
+	public void preparePlayerControls() {
 
-	private void deal(Card[] cards) {
-		for (int i = 0; i < cards.length; i++) {
-			cards[i] = cardDeck.dealCard();
+		// Create Player 1's interactive buttons
+		p1DrawFromStackButton.addActionListener(this);
+		p1DrawFromDeckButton.addActionListener(this);
+		p1LayOnTableButton.addActionListener(this);
+		p1DiscardButton.addActionListener(this);
+
+
+		// Create Player 2's interactive buttons
+		p2DrawFromStackButton.addActionListener(this);
+		p2DrawFromDeckButton.addActionListener(this);
+		p2LayOnTableButton.addActionListener(this);
+		p2DiscardButton.addActionListener(this);
+
+	}
+
+
+	/**
+	* Deals 9 cards to each player.
+	*/
+	private void dealCardsToPlayers() {
+
+		// Create Player 1's hand of 9 cards
+		for (int i = 0; i < NUM_DEALT_CARDS; i++) {
+			Card c = cardDeck.dealCard();
+			p1Hand.addCard(c);
 		}
+
+
+		// Add a UI component to show Player 1's hand
+		p1HandPile = new JList<Card>(p1Hand.getHand());
+
+
+		// Create Player 2's hand of 9 cards
+		for (int i = 0; i < NUM_DEALT_CARDS; i++) {
+			Card c = cardDeck.dealCard();
+			p2Hand.addCard(c);
+		}
+
+
+		// Add a UI component to show Player 2's hand
+		p2HandPile = new JList<Card>(p2Hand.getHand());
+
 	}
 
 
+	/**
+	* Handles logic to lay a single card on the table.
+	* @param card the Card that will be laid on the table.
+	*/
 	private void layCardOnTable(Card card) {
 		char rank = card.getRank();
 		char suit = card.getSuit();
@@ -260,168 +260,214 @@ public class Table extends JFrame implements ActionListener {
 	}
 
 
+	/**
+	* Announces through standard output who the winner is.
+	*/
 	private void announceWinner() {
 		int p1MinusP2 = p1Hand.compareTo(p2Hand);
 
 		if (p1MinusP2 > 0) {
-			System.out.println("Player 1 Wins!!!");
+			System.out.println("Player 1 Wins!");
 		} else if (p1MinusP2 == 0) {
-			System.out.println("Tie!");
+			System.out.println("It's a tie!");
 		} else {
-			System.out.println("Player 2 Wins!!!");
+			System.out.println("Player 2 Wins!");
 		}
 	}
 
 
-	private void handleP1ClickedOnDeck() {
+	/**
+	* Handles user clicking on "Draw from Deck" button.
+	* @param playersHand the Hand of the player who clicked on the button.
+	*/
+	private void handleDrawFromDeck(Hand playersHand) {
 
-		// TODO: pass turn
 		Card card = cardDeck.dealCard();
 
-		// TODO: sort after adding card
-		// TODO: only add card for relevant player
+		// Add card to hand
 		if (card != null) {
-			p1Hand.addCard(card);
+			playersHand.addCard(card);
 		}
-
 		
 		// Game Over
 		if (cardDeck.isEmpty()) {
-			deckPile.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+			deckGraphic.setIcon(new ImageIcon(Card.directory + "blank.gif"));
 			announceWinner();
 		}
+
 	}
 
 
-	private void handleP1ClickedOnStack() {
+	/**
+	* Handles user clicking on "Draw from Stack" button.
+	* @param playersHand the Hand of the player who clicked on the button.
+	*/
+	private void handleDrawFromStack(Hand playersHand) {
 
- 		// TODO: debería quitar carta en el top del stack?
 		Card card = stackDeck.removeCard();
 
 		if (card != null) {
-
-			// TODO: pass turn
 
 			Card topCard = stackDeck.peek();
 
 			// First change the image in the stack
 			if (topCard != null) {
-				topOfStack.setIcon(topCard.getCardImage());
+				stackGraphic.setIcon(topCard.getCardImage());
 			} else {
-				topOfStack.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+				stackGraphic.setIcon(new ImageIcon(Card.directory + "blank.gif"));
 			}
 
 			// Then add the removed card to the player's hand
-			// TODO: sort after adding
-			// TODO: only add card for relevant player	
-			p1Hand.addCard(card);
+			playersHand.addCard(card);
 
 		}
 	}
 
 
-	// TODO: THIS LAYS SETS!!!!
-	private void handleP1ClickedOnLay() {
+	/**
+	* Handles user clicking on "Lay on Table" button.
+	* @param playersHand the Hand of the player who clicked on the button.
+	* @param playersHandPile the UI representation of the player's hand.
+	*/
+	// TODO CRITICAL: THIS SHOULD LAY SETS IN THE TABLE
+	// TODO IMPROVEMENT: THIS SHOULD LAY RUNS IN THE TABLE
+	// TODO IMPROVEMENT: THIS SHOULD LAY CARDS THAT FIT IN SETS OR RUNS ALREADY ON THE TABLE
+	private void handleLayOnTable(Hand playersHand, JList<Card> playersHandPile) {
 		
- 		// TODO: findSet instead?
- 		// TODO: only do it for relevant player
-		Object [] cards = p1HandPile.getSelectedValues();
+ 		// TODO CRITICAL: findSet instead?
+		List<Card> selectedCards = playersHandPile.getSelectedValuesList();
 
-		if (cards != null) {
-			for (int i = 0; i < cards.length; i++) {
-				Card card = (Card) cards[i];
+		if (selectedCards != null) {
+			for (int i = 0; i < selectedCards.size(); i++) {
+				Card card = selectedCards.get(i);
 				layCardOnTable(card);
-				// TODO: only do it for relevant player
-				p1Hand.removeCard(card);
+				playersHand.removeCard(card);
 			}
 		}
 
 
 		// Check if player's hand is empty
-		// TODO: only do it for relevant player
-		if (p1Hand.isEmpty()) {
-			// TODO: check if we need to change an image or text when player's hand is empty
+		if (playersHand.isEmpty()) {
 			announceWinner();
 		}
 
-
-		// TODO: figure out if this is actually necessary
-		// if (cardDeck.isEmpty()) {
-			// announceWinner();
-		// }
 	}
 
 
-	private void handleP1ClickedOnLayOnStack() {
+	/**
+	* Handles user clicking on "Discard" button.
+	* @param playersHand the Hand of the player who clicked on the button.
+	* @param playersHandPile the UI representation of the player's hand.
+	*/
+	private void handleDiscard(Hand playersHand, JList<Card> playersHandPile) {
 
-		// TODO: advance some sort of flag that lets you know user can do this move?
+		// Move card from hand to the top of the stack
+		// TODO: how do we check if it's only a single card selected?
+		Card selectedCard = playersHandPile.getSelectedValue();
 
-		
-		// TODO: only do it for relevant player
-		int[] num  = p1HandPile.getSelectedIndices();
-
-		// Only permit laying a single card at a time?
-		if (num.length == 1) {
-
-			// Move card from hand to the top of the stack
-			// TODO: only do it for relevant player
-			Card card = p1HandPile.getSelectedValue();
-			if (card != null) {
-				// TODO: only do it for relevant player
-				p1Hand.removeCard(card);
-				stackDeck.addCard(card);
-				topOfStack.setIcon(card.getCardImage());
-			}
-
-			// TODO: only do it for relevant player
-			if (p1Hand.isEmpty()) {
-				// TODO: check if we need to change an image or text when player's hand is empty
-				announceWinner();
-			}
-
-
-			// OTHER PLAYER'S TURN??????????
-			// TODO: pass turn
-			// TODO: advance otherflag
-			
-			// handleP2ClickedOnDeck();
-			// handleP2ClickedOnLay();
-			// TODO: MAKE CPU DISCARD A RANDOM CARD TO END TURN
+		if (selectedCard != null) {
+			playersHand.removeCard(selectedCard);
+			stackDeck.addCard(selectedCard);
+			stackGraphic.setIcon(selectedCard.getCardImage());
 		}
+
+		if (playersHand.isEmpty()) {
+			announceWinner();
+		}
+
 	}
 
 
+	/**
+	* Generic function that mimics a player's move (drawing from deck/stack, laying sets/runs and finally discarding).
+	* @param playersHand the Hand of the player who clicked on the button.
+	* @param playersHandPile the UI representation of the player's hand.
+	*/
+	private void makeMove(Hand playersHand, JList<Card> playersHandPile) {
+
+		// Draw from deck or stack
+		if (stackDeck.isEmpty()) {
+			handleDrawFromDeck(playersHand);
+		} else {
+
+			// Choose whether to draw from deck or from stack
+			int oneOrTwo = ThreadLocalRandom.current().nextInt(1, 3);
+			if (oneOrTwo == 1) {
+				handleDrawFromDeck(playersHand);
+			} else {
+				handleDrawFromStack(playersHand);
+			}
+
+		}
+
+
+		// Lay on table (if possible)
+		// TODO CRITICAL: SELECT A RANDOM SET FROM THE HAND TO LAY (otherwise, it'll never lay)
+		handleLayOnTable(playersHand, playersHandPile);
+
+
+		// Discard to Stack and reset flags
+		// TODO CRITICAL: SELECT A RANDOM CARD FROM THE HAND TO DISCARD (otherwise, it'll never discard)
+		handleDiscard(playersHand, playersHandPile);
+
+	}
+
+
+	/**
+	* Handles a user's action triggered by any of the registered buttons.
+	* @param e the ActionEvent represnting the user's action.
+	*/
 	public void actionPerformed(ActionEvent e) {
 
 		// Get event source
 		Object src = e.getSource();
 
 
-		// TODO: check that it was P1's turn
-		// TODO: duplicate logic for P2's case
-		if (p1Deck == src || p2Deck == src) {
-			handleP1ClickedOnDeck();
-		}
+		if (p1Turn) {
+
+			// Draw from Deck
+			if (p1DrawFromDeckButton == src && !currentPlayerHasDrawn) {
+				handleDrawFromDeck(p1Hand);
+				currentPlayerHasDrawn = true;
+			}
 
 
-		// TODO: check that it was P1's turn
-		// TODO: duplicate logic for P2's case
-		if (p1Stack == src || p2Stack == src) {
-			handleP1ClickedOnStack();
-		}
+			// Draw from Stack (if there's at least one card in it)
+			if (p1DrawFromStackButton == src && !currentPlayerHasDrawn && !stackDeck.isEmpty()) {
+				handleDrawFromStack(p1Hand);
+				currentPlayerHasDrawn = true;
+			}
 
 
-		// TODO: check that it was P1's turn
-		// TODO: duplicate logic for P2's case
-		if (p1Lay == src) {
-			handleP1ClickedOnLay();
-		}
+			// Lay set on table
+			if (p1LayOnTableButton == src && currentPlayerHasDrawn) {
+				handleLayOnTable(p1Hand, p1HandPile);
+			}
 
 
-		// TODO: check that it was P1's turn
-		// TODO: duplicate logic for P2's case
-		if (p1LayOnStack == src) {
-			handleP1ClickedOnLayOnStack();
+			// Discard to Stack
+			if (p1DiscardButton == src && currentPlayerHasDrawn) {
+
+				// Only permit discarding of one card at a time (instead of multiple)
+				int[] num = p1HandPile.getSelectedIndices();
+				if (num.length != 1) return;
+
+				handleDiscard(p1Hand, p1HandPile);
+				p1Turn = false;
+				currentPlayerHasDrawn = false;
+
+				// AI makes a move
+				// TODO IMPROVEMENT: make ai move only if flag is set
+				makeMove(p2Hand, p2HandPile);
+				p1Turn = true;
+
+			}
+
+		} else {
+
+			// TODO IMPROVEMENT: implement second interactive player
+			// TODO IMPROVEMENT: implement AI for first player
+
 		}
 
 	}

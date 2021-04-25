@@ -7,7 +7,7 @@ public interface CardInterface {
 
   final static char[] suit = {'c','d','h','s'};
 
-  final static char [] rank = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
+  final static char[] rank = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
 
   final public static String directory = "cards/";
 

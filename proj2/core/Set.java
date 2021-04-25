@@ -8,8 +8,11 @@ import proj2.core.Card;
 import proj2.interfaces.SetInterface;
 
 
-// TODO: inherit from MyStack for some reason
-// TODO: javadoc
+/**
+ * Represents the basic functionality of a set of cards.
+ * Has a capacity of 4 (since there are only 4 ranks).
+ * Includes standard getters and the functionality to add cards.
+ */
 public class Set implements SetInterface, Comparable<Set> {
 
 
@@ -22,6 +25,17 @@ public class Set implements SetInterface, Comparable<Set> {
   final private char rank;
   final private int rankIndex;
   protected List<Card> hand = new ArrayList<Card>();
+
+
+  /**
+  * Adds a card to the Set (if the card is of the same rank as the rest of the set).
+  * @param card the Card to be added.
+  */
+  public void addCard(Card card) {
+    if (rankIndex == Card.getRankIndex(card.getRank()) && !isFull()) {
+      hand.add(card);
+    }
+  }
 
 
   /**
@@ -64,27 +78,15 @@ public class Set implements SetInterface, Comparable<Set> {
 
 
   /**
-  * Adds a card to the Set (if the card is of the same rank as the rest of the set).
-  * @param card the Card to be added.
-  */
-  // TODO: if set is full then no more Card may be added to the set
-  public void addCard(Card card) {
-    if (rankIndex == Card.getRankIndex(card.getRank()) && !isFull()) {
-      hand.add(card);
-    }
-  }
-
-
-  /**
   * Obtains the card stored at the specified location in the hand. 
   * Does not remove the card from the hand.
   * @param index position of card to be accessed.
   * @return the card of interest, or null if not found.
   */
   // TODO: Not used?
-  public Card getCard(int index) {
-    return hand.get(index);
-  }
+  // public Card getCard(int index) {
+    // return hand.get(index);
+  // }
 
 
   /**
@@ -93,15 +95,15 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return the card removed from the hand, or null not found.
   */
   // TODO: Not used?
-  public Card removeCard(Card card) {
-    int index = hand.indexOf(card);
+  // public Card removeCard(Card card) {
+    // int index = hand.indexOf(card);
 
-    if (index < 0) {
-      return null;
-    }
+    // if (index < 0) {
+      // return null;
+    // }
 
-    return hand.remove(index);
-  }
+    // return hand.remove(index);
+  // }
 
 
   /**
@@ -110,9 +112,9 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return the card removed from the hand, or null if not found.
   */
   // TODO: Not used?
-  public Card removeCard(int index) {
-    return hand.remove(index);
-  }
+  // public Card removeCard(int index) {
+    // return hand.remove(index);
+  // }
 
 
   /**
@@ -120,9 +122,9 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return number of cards currently held in the hand.
   */
   // TODO: Not used?
-  public int getNumberOfCards() {
-    return hand.size();
-  }
+  // public int getNumberOfCards() {
+    // return hand.size();
+  // }
 
 
   /**
@@ -130,9 +132,9 @@ public class Set implements SetInterface, Comparable<Set> {
   * Sort is performed according to the order specified in the {@link Card} class.
   */
   // TODO: Not used?
-  public void sort() {
-    Collections.sort(hand);
-  }
+  // public void sort() {
+    // Collections.sort(hand);
+  // }
 
 
   /**
@@ -140,9 +142,9 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return <code>true</code> is the hand is empty.
   */
   // TODO: Not used?
-  public boolean isEmpty() {
-    return hand.isEmpty();
-  }
+  // public boolean isEmpty() {
+    // return hand.isEmpty();
+  // }
 
 
   /**
@@ -151,10 +153,10 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return <code>true</code> if the card is present in the hand.
   */
   // TODO: Not used?
-  public boolean containsCard(Card card) {
+  // public boolean containsCard(Card card) {
     // TODO: implement this
-    return false;
-  }
+    // return false;
+  // }
 
 
   /**
@@ -163,16 +165,16 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return position index of card if found, or <code>-1</code> if not found.
   */
   // TODO: Not used?
-  public int findCard(Card card) {
-    return hand.indexOf(card);
-  }
+  // public int findCard(Card card) {
+    // return hand.indexOf(card);
+  // }
 
 
   // TODO: implement this
   // TODO: Not used?
-  public Card[] findSet() {
-    return null;
-  }
+  // public Card[] findSet() {
+    // return null;
+  // }
 
 
   /**
@@ -184,19 +186,19 @@ public class Set implements SetInterface, Comparable<Set> {
   */
   // TODO: is this done right?
   // TODO: Not used?
-  public int evaluateHand() {
-    int value = 0;
+  // public int evaluateHand() {
+    // int value = 0;
 
-    int cardValue = rankIndex - Card.getRankIndex('a') + 1;
+    // int cardValue = rankIndex - Card.getRankIndex('a') + 1;
 
-    if (cardValue > 10) {
-      cardValue = 10;
-    }
+    // if (cardValue > 10) {
+      // cardValue = 10;
+    // }
 
-    value = getNumberOfCards() * cardValue;
+    // value = getNumberOfCards() * cardValue;
 
-    return value;
-  }
+    // return value;
+  // }
 
 
   /**
@@ -204,9 +206,9 @@ public class Set implements SetInterface, Comparable<Set> {
   * @return a list of cards held in the hand.
   */
   // TODO: Not used?
-  public String toString() {
-    return hand.toString();
-  }
+  // public String toString() {
+    // return hand.toString();
+  // }
 
 
   /**
