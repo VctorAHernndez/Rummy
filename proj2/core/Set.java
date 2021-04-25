@@ -28,25 +28,26 @@ public class Set implements SetInterface, Comparable<Set> {
 
 
   /**
-  * Adds a card to the Set (if the card is of the same rank as the rest of the set).
-  * @param card the Card to be added.
-  */
-  public void addCard(Card card) {
-    if (rankIndex == Card.getRankIndex(card.getRank()) && !isFull()) {
-      hand.add(card);
-    }
-  }
-
-
-  /**
   * Creates a set with a given rank.
   * @param rank the rank of the set.
   */
   // NOTE: NOT IN INTERFACE
   public Set(char rank) {
-    super(); // TODO: Héctor le pone size 52
+    super();
     rankIndex = Card.getRankIndex(rank);
     this.rank = rank;
+  }
+
+
+  /**
+  * Adds a card to the Set (if the card is of the same rank as the rest of the set).
+  * @param card the Card to be added.
+  */
+  // NOTE: Unused but the specifications dictate we need it.
+  public void addCard(Card card) {
+    if (rankIndex == Card.getRankIndex(card.getRank()) && !isFull()) {
+      hand.add(card);
+    }
   }
 
 
@@ -63,6 +64,7 @@ public class Set implements SetInterface, Comparable<Set> {
   * Returns the rankIndex of the set.
   * @return int corresponding to rank as defined in CardInterface.
   */
+  // NOTE: Unused but the specifications dictate we need it.
   public int getRankIndex() {
     return rankIndex;
   }
@@ -72,6 +74,7 @@ public class Set implements SetInterface, Comparable<Set> {
   * Returns the rank of the set.
   * @return char returns char of rank as defined in CardInterface.
   */
+  // NOTE: Unused but the specifications dictate we need it.
   public char getRank() {
     return rank;
   }
@@ -217,8 +220,7 @@ public class Set implements SetInterface, Comparable<Set> {
   *  @return < 0 if this hand is less than the other hand, 0 if the two hands are
   *  the same, or > 0 if this hand is greater then the other hand.
   */
-  // NOTE: NOT IN INTERFACE
-  // TODO: Not used?
+  // NOTE: Unused but the specifications dictate we need it.
   public int compareTo(Set otherSet) {
     return this.rankIndex - otherSet.rankIndex;
   }

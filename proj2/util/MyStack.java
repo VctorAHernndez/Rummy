@@ -27,15 +27,6 @@ public class MyStack<T> {
 
 
   /**
-  * Returns the size of the stack (amount of elements in it).
-  * @return int of the number of elements in the stack
-  */
-  public int size() {
-    return stack.size();
-  }
-
-
-  /**
   * Returns <code>true</code> if the stack is empty, <code>false</code> otherwise.
   * @return boolean representing if stack is empty.
   */

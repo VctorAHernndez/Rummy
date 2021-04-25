@@ -30,21 +30,6 @@ public class Card implements CardInterface, Comparable<Card> {
   /**
   * Creates a new playing card.
   * @param suit the suit value of this card.
-  * @param rank the rank value of this card.
-  * @param cardFace the face image of this card.
-  */
-  // NOTE: NOT IN INTERFACE
-  // TODO: find out if this is used or not
-  // public Card(char suit, char rank, ImageIcon cardFace) {
-    // suitValue = suit;
-    // rankValue = rank;
-    // cardImage = cardFace;
-  // }
-
-
-  /**
-  * Creates a new playing card.
-  * @param suit the suit value of this card.
   * @param rank the rank value of this card
   */
   // NOTE: NOT IN INTERFACE
@@ -161,8 +146,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @return a negative integer, zero, or a positive integer if this card is
   * less than, equal to, or greater than the referenced card.
   */
-  // NOTE: NOT IN INTERFACE
-  // TODO: find out if this is used or not
+  // NOTE: Unused but the specifications dictate we need it.
   public int compareTo(Card otherCard) {
     int rankDiff = getRankIndex(this.suitValue) - getRankIndex(otherCard.suitValue);
     return rankDiff;

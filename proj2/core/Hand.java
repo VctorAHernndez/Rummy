@@ -70,6 +70,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @param index position of the card to be removed.
   * @return the card removed from the hand, or null if not found.
   */
+  // NOTE: Unused but the specifications dictate we need it.
   public Card removeCard(int index) {
     if (index < 0 || index >= getNumberOfCards()) {
       return null;
@@ -127,7 +128,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @param card the card being searched for in the hand.
   * @return <code>true</code> if the card is present in the hand.
   */
-  // TODO: validate this?
+  // NOTE: Unused but the specifications dictate we need it.
   public boolean containsCard(Card card) {
     return hand.contains(card);
   }
@@ -138,6 +139,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @param card card being searched for.
   * @return position index of card if found, or <code>-1</code> if not found.
   */
+  // TODO: find out if used?
   public int findCard(Card card) {
     return hand.indexOf(card);
   }
@@ -184,6 +186,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * @return a list of cards held in the hand.
   */
   // TODO: Héctor tiene su propia función "fancy"
+  // TODO: find out if used?
   public String toString() {
     return hand.toString();
   }
@@ -195,7 +198,6 @@ public class Hand implements HandInterface, Comparable<Hand> {
   *  @return < 0 if this hand is less than the other hand, 0 if the two hands are
   *  the same, or > 0 if this hand is greater then the other hand.
   */
-  // NOTE: NOT IN INTERFACE
   public int compareTo(Hand otherHand) {
     return this.evaluateHand() - otherHand.evaluateHand();
   }

@@ -57,8 +57,7 @@ public class Deck implements DeckInterface {
   * Returns the number of Cards on the deck.
   * @return int representing the number of cards on the deck.
   */
-  // NOTE: Unused because only used for comparing against 0
-  //       but the specifications dictate we need it.
+  // NOTE: Unused but the specifications dictate we need it.
   public int getSizeOfDeck() {
     return deck.size();
   }
@@ -69,8 +68,7 @@ public class Deck implements DeckInterface {
   * @return a Card representing the next card in the deck.
   */
   public Card dealCard() {
-    // TODO: shouldn't it be removeLast()?
-    return isEmpty() ? null : deck.removeFirst();
+    return isEmpty() ? null : deck.removeLast();
   }
 
 
@@ -78,8 +76,8 @@ public class Deck implements DeckInterface {
   * Returns the last card in the deck and removes it.
   * @return a Card representing the last card in the deck.
   */
+  // NOTE: Unused but the specifications dictate we need it.
   public Card removeCard() {
-    // TODO: checkin with dealCard()
     return isEmpty() ? null : deck.removeLast();
   }
 
