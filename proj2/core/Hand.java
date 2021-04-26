@@ -2,9 +2,6 @@ package proj2.core;
 
 import javax.swing.DefaultListModel;
 
-import proj2.core.Card;
-import proj2.core.Set;
-
 import proj2.interfaces.HandInterface;
 
 import proj2.util.BubbleSort;
@@ -94,7 +91,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
    * Sorts the card in the hand. Sort is performed according to the order
    * specified in the {@link Card} class.
    */
-  // TODO: T extends Comparable<? super T> declared in method <T>sort(List<T>)
+  // TODO: IMPROVEMENT, TRY USING COLLECTIONS CLASS INSTEAD OF CUSTOM CLASS
   public void sort() {
     // Collections.sort(hand);
     BubbleSort.sort(hand);
@@ -134,10 +131,10 @@ public class Hand implements HandInterface, Comparable<Hand> {
    * Searches for the first instance of a set (3 or 4 Cards of the same rank) in
    * the hand.
    * 
-   * @return returns Card [] of Cards found in deck or <code>null</code> if not
+   * @return returns Card[] of Cards found in deck or <code>null</code> if not
    *         found.
    */
-  // TODO IMPROVEMENT: COULD SEARCH THE SET THAT WILL GRANT MORE POINTS
+  // TODO: IMPROVEMENT, COULD SEARCH THE SET THAT WILL GRANT MORE POINTS
   public Card[] findSet() {
 
     if (hand.size() < Set.MIN_NUM_NECESSARY_TO_FORM_SET) {
@@ -149,7 +146,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
 
     // This assumes hand is sorted by rank (i.e. four consecutive aces, three
     // consecutives 2s, etc.)
-    // TODO IMPROVEMENT: can be micro-optimized a bit by manually setting i
+    // TODO: IMPROVEMENT, can be micro-optimized a bit by manually setting i
     for (int i = 0; i < hand.size(); i++) {
 
       // Not enough cards to form a Set
@@ -243,7 +240,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
    * @return <code>true</code> if the replacement occurs.
    */
   // NOTE: NOT IN INTERFACE
-  // TODO: unused?
+  // TODO: Not used?
   // public boolean replaceCard(Card oldCard, Card replacementCard) {
   // int location = findCard(oldCard);
 
@@ -259,7 +256,7 @@ public class Hand implements HandInterface, Comparable<Hand> {
    * Removes all the cards from the hand, leaving an empty hand.
    */
   // NOTE: NOT IN INTERFACE
-  // TODO: unused?
+  // TODO: Not used?
   // public void discardHand() {
   // hand.clear();
   // }

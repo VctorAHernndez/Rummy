@@ -1,7 +1,6 @@
 package proj2.interfaces;
 
 import proj2.core.Card;
-import proj2.interfaces.HandInterface;
 
 public interface SetInterface {
 

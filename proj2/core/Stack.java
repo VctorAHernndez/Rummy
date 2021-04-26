@@ -1,7 +1,5 @@
 package proj2.core;
 
-import proj2.core.Card;
-
 import proj2.util.MyStack;
 
 /**

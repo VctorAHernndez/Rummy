@@ -3,8 +3,6 @@ package proj2.core;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import proj2.core.Card;
-
 import proj2.interfaces.DeckInterface;
 
 /**

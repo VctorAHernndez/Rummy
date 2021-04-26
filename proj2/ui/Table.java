@@ -1,7 +1,6 @@
 package proj2.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
@@ -11,9 +10,7 @@ import java.util.List;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,11 +21,8 @@ import javax.swing.JPanel;
 import proj2.core.Card;
 import proj2.core.Deck;
 import proj2.core.Hand;
+import proj2.core.Set;
 import proj2.core.Stack;
-
-import proj2.ui.CardPileGroupPanel;
-import proj2.ui.PlayerControlPanel;
-import proj2.ui.SetPanel;
 
 /**
  * This GUI assumes that you are using a 52 card deck and that you have 13 sets
@@ -42,7 +36,6 @@ public class Table extends JFrame implements ActionListener {
   // Class attributes
   final private static int TABLE_WIDTH = 1200;
   final private static int TABLE_HEIGHT = 700;
-  final private static int NUM_CARDS_IN_DECK = 52;
   final private static int NUM_SETS = 13;
   final private static int NUM_DEALT_CARDS = 9;
   final private static String WINDOW_TITLE_TEXT = "The Card Game of the Century";
@@ -123,8 +116,8 @@ public class Table extends JFrame implements ActionListener {
     // Add middle section to the actual global center
     this.add(centerSection, BorderLayout.CENTER);
 
-    // TODO: after dealing to both players, the next card should be turned face-up
-    // to initiate the discard pile (Stack)
+    // TODO: UNSURE, after dealing to both players, the next card should be turned
+    // face-up to initiate the discard pile (Stack)
 
   }
 
@@ -263,10 +256,13 @@ public class Table extends JFrame implements ActionListener {
 
     Card card = cardDeck.dealCard();
 
-    // Add card to hand
-    if (card != null) {
-      playersHand.addCard(card);
+    // Don't do anything if deck is empty
+    if (card == null) {
+      return;
     }
+
+    // Add card to hand
+    playersHand.addCard(card);
 
     // Game Over
     if (cardDeck.isEmpty()) {
@@ -285,21 +281,22 @@ public class Table extends JFrame implements ActionListener {
 
     Card card = stackDeck.removeCard();
 
-    if (card != null) {
-
-      Card topCard = stackDeck.peek();
-
-      // First change the image in the stack
-      if (topCard != null) {
-        stackGraphic.setIcon(topCard.getCardImage());
-      } else {
-        stackGraphic.setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
-      }
-
-      // Then add the removed card to the player's hand
-      playersHand.addCard(card);
-
+    // Don't do anything if stack is empty
+    if (card == null) {
+      return;
     }
+
+    // First change the image in the stack
+    Card topCard = stackDeck.peek();
+    if (topCard == null) {
+      stackGraphic.setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
+    } else {
+      stackGraphic.setIcon(topCard.getCardImage());
+    }
+
+    // Then add the removed card to the player's hand
+    playersHand.addCard(card);
+
   }
 
   /**
@@ -308,24 +305,34 @@ public class Table extends JFrame implements ActionListener {
    * @param playersHand     the Hand of the player who clicked on the button.
    * @param playersHandPile the UI representation of the player's hand.
    */
+  // TODO: validate... no me salió manualmente :(
   private void handleLayOnTable(Hand playersHand, JList<Card> playersHandPile) {
 
     List<Card> selectedCards = playersHandPile.getSelectedValuesList();
 
-    // TODO: check if selectedCards in fact forms a set or a run before laying
-    // TODO: if selectedCards.length == 1, bypass the che
-    // TODO: before laying single cards, we should check that it fits in sets or
-    // runs already on the table
+    if (selectedCards == null) {
+      return;
+    }
 
-    if (selectedCards != null) {
+    if (selectedCards.size() == 1) {
+      // TODO: check that it fits in sets or runs already on the table
+    } else {
+
+      // First check if selectedCards forms a set before laying
+      // TODO: IMPROVEMENT, check if selectedCards forms a run before laying
+      if (!Set.isSet(selectedCards)) {
+        return;
+      }
+
       for (int i = 0; i < selectedCards.size(); i++) {
         Card card = selectedCards.get(i);
         layCardOnTable(card);
         playersHand.removeCard(card);
       }
+
     }
 
-    // Check if player's hand is empty
+    // Game Over
     if (playersHand.isEmpty()) {
       announceWinner();
     }
@@ -340,16 +347,20 @@ public class Table extends JFrame implements ActionListener {
    */
   private void handleDiscard(Hand playersHand, JList<Card> playersHandPile) {
 
-    // Move card from hand to the top of the stack
-    // TODO: how do we check if it's only a single card selected?
-    Card selectedCard = playersHandPile.getSelectedValue();
+    List<Card> selectedCards = playersHandPile.getSelectedValuesList();
 
-    if (selectedCard != null) {
-      playersHand.removeCard(selectedCard);
-      stackDeck.addCard(selectedCard);
-      stackGraphic.setIcon(selectedCard.getCardImage());
+    // Don't do anything if no card is selected or more than one card is selected
+    if (selectedCards == null || selectedCards.size() != 1) {
+      return;
     }
 
+    // Discard from hand
+    Card selectedCard = selectedCards.get(0);
+    playersHand.removeCard(selectedCard);
+    stackDeck.addCard(selectedCard);
+    stackGraphic.setIcon(selectedCard.getCardImage());
+
+    // Game Over
     if (playersHand.isEmpty()) {
       announceWinner();
     }
@@ -380,9 +391,11 @@ public class Table extends JFrame implements ActionListener {
 
     }
 
-    // Lay on table (if possible)
-    // TODO IMPROVEMENT: SHOULD ALSO TRY TO LAY RUNS IN THE TABLE
-    // TODO IMPROVEMENT: THIS SHOULD LAY CARDS THAT FIT IN SETS OR RUNS ALREADY ON
+    // Search for a set in the hand and lay on the table (if possible)
+    // TODO: IMPROVEMENT, THIS IS ACTUALLY PART OF THE AI LOGIC, SO WE SHOULD CHOOSE
+    // RANDOMLY WHETHER TO DO IT OR NOT INSTEAD OF ALWAYS DOING IT
+    // TODO: IMPROVEMENT, SHOULD ALSO TRY TO LAY RUNS IN THE TABLE
+    // TODO: IMPROVEMENT, THIS SHOULD LAY CARDS THAT FIT IN SETS OR RUNS ALREADY ON
     // THE TABLE
     Card[] set = playersHand.findSet();
     if (set != null) {
@@ -399,7 +412,7 @@ public class Table extends JFrame implements ActionListener {
     }
 
     // Select a random card from the hand to discard
-    // TODO IMPROVEMENT: MAKE A WISER DECISION AS TO WHICH CARD TO DISCARD FROM HAND
+    // TODO: IMPROVEMENT, MAKE WISER DECISION AS TO WHICH CARD TO DISCARD FROM HAND
     int handSize = playersHandPile.getModel().getSize();
     int randomIndex = ThreadLocalRandom.current().nextInt(0, handSize);
     playersHandPile.setSelectedIndex(randomIndex);

@@ -1,10 +1,7 @@
 package proj2.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import proj2.core.Card;
 
 import proj2.interfaces.SetInterface;
 
@@ -38,11 +35,32 @@ public class Set implements SetInterface, Comparable<Set> {
   }
 
   /**
+   * Checks if the list of cards given forms a set.
+   * 
+   * @param list the list of Cards that will be checked.
+   * @return boolean representing wheter the given list is a set.
+   */
+  // NOTE: NOT IN INTERFACE
+  public static boolean isSet(List<Card> list) {
+    if (list.size() < MIN_NUM_NECESSARY_TO_FORM_SET || list.size() > CAPACITY) {
+      return false;
+    }
+
+    Set set = new Set(list.get(0).getRank());
+    for (int i = 1; i < list.size(); i++) {
+      set.addCard(list.get(i));
+    }
+
+    return set.isValid();
+  }
+
+  /**
    * Returns if the set is valid or not (i.e. contains at least 3 cards and no
    * more than 4 cards).
    * 
    * @return boolean indicating whether set is valid or not.
    */
+  // NOTE: NOT IN INTERFACE
   public boolean isValid() {
     boolean a = hand.size() < CAPACITY;
     boolean b = hand.size() >= MIN_NUM_NECESSARY_TO_FORM_SET;
@@ -55,6 +73,7 @@ public class Set implements SetInterface, Comparable<Set> {
    * 
    * @return boolean indicating whether set is valid or not.
    */
+  // NOTE: NOT IN INTERFACE
   public Card[] getCards() {
     Card[] arr = new Card[hand.size()];
     for (int i = 0; i < hand.size(); i++) {
@@ -179,9 +198,8 @@ public class Set implements SetInterface, Comparable<Set> {
    * @param card the card being searched for in the hand.
    * @return <code>true</code> if the card is present in the hand.
    */
-  // TODO: Not used?
+  // TODO: Not used? should implement it if needed!
   // public boolean containsCard(Card card) {
-  // TODO: implement this
   // return false;
   // }
 
@@ -196,8 +214,7 @@ public class Set implements SetInterface, Comparable<Set> {
   // return hand.indexOf(card);
   // }
 
-  // TODO: implement this
-  // TODO: Not used?
+  // TODO: Not used? should implement it if needed!
   // public Card[] findSet() {
   // return null;
   // }
@@ -208,8 +225,7 @@ public class Set implements SetInterface, Comparable<Set> {
    * worth ten points. The value of a hand is equal to the summation of the points
    * of all the cards held in the hand.
    */
-  // TODO: is this done right?
-  // TODO: Not used?
+  // TODO: Not used? should validate if needed!
   // public int evaluateHand() {
   // int value = 0;
 
