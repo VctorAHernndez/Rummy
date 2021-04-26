@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import proj2.core.Card;
+
 import proj2.interfaces.DeckInterface;
 
 
@@ -26,9 +27,9 @@ public class Deck implements DeckInterface {
   public Deck() {
     deck = new LinkedList<Card>();
 
-    for (int i = 0; i < Card.suit.length; i++) {
-      for (int j = 0; j < Card.rank.length; j++) {
-        Card card = new Card(Card.suit[i], Card.rank[j]);
+    for (int i = 0; i < Card.SUITS.length; i++) {
+      for (int j = 0; j < Card.RANKS.length; j++) {
+        Card card = new Card(Card.SUITS[i], Card.RANKS[j]);
         deck.add(card);
       }
     }

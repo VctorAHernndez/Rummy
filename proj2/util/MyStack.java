@@ -81,7 +81,6 @@ public class MyStack<T> {
   */
   public T peek() {
     if (isEmpty()) {
-      System.out.println("Stack is empty. Returning null.");
       return null;
     }
 

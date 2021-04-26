@@ -102,3 +102,10 @@ This project is an interactive version of the Rummy card game. Provided some bas
 * `output.txt`
 * `README.md` (including instructions for how to run and interact your GUI)
 * Any items required for extra credit options
+
+### Acknowledgements
+
+The only references used to construct this project were:
+
+1. [Official Java Tutorials & Documentation](https://docs.oracle.com)
+2. [Stack Overflow](https://stackoverflow.com)

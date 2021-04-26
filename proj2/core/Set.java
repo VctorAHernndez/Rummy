@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import proj2.core.Card;
+
 import proj2.interfaces.SetInterface;
 
 
@@ -18,6 +19,7 @@ public class Set implements SetInterface, Comparable<Set> {
 
   // Class attributes
   final public static int CAPACITY = 4;
+  final public static int MIN_NUM_NECESSARY_TO_FORM_SET = 3;
 
 
   // Instance attributes
@@ -40,10 +42,33 @@ public class Set implements SetInterface, Comparable<Set> {
 
 
   /**
+  * Returns if the set is valid or not (i.e. contains at least 3 cards and no more than 4 cards).
+  * @return boolean indicating whether set is valid or not.
+  */
+  public boolean isValid() {
+    boolean a = hand.size() < CAPACITY;
+    boolean b = hand.size() >= MIN_NUM_NECESSARY_TO_FORM_SET;
+    return a && b;
+  }
+
+
+  /**
+  * Returns if the set is valid or not (i.e. contains at least 3 cards and no more than 4 cards).
+  * @return boolean indicating whether set is valid or not.
+  */
+  public Card[] getCards() {
+    Card[] arr = new Card[hand.size()];
+    for (int i = 0; i < hand.size(); i++) {
+      arr[i] = hand.get(i);
+    }
+    return arr;
+  }
+
+
+  /**
   * Adds a card to the Set (if the card is of the same rank as the rest of the set).
   * @param card the Card to be added.
   */
-  // NOTE: Unused but the specifications dictate we need it.
   public void addCard(Card card) {
     if (rankIndex == Card.getRankIndex(card.getRank()) && !isFull()) {
       hand.add(card);

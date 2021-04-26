@@ -15,16 +15,16 @@ public class Card implements CardInterface, Comparable<Card> {
 
 
   // Class attributes
-  final public static char[] suit = {'c','d','h','s'};
-  final public static char[] rank = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
-  final public static String directory = "cards/";
+  final public static char[] SUITS = {'c','d','h','s'};
+  final public static char[] RANKS = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
+  final public static String IMAGE_DIR = "cards/";
 
 
   // Instance variables
   // NOTE: NOT IN INTERFACE
-  private char suitValue;
-  private char rankValue;
-  private ImageIcon cardImage;
+  final private char suitValue;
+  final private char rankValue;
+  final private ImageIcon cardImage;
 
 
   /**
@@ -41,7 +41,7 @@ public class Card implements CardInterface, Comparable<Card> {
 
 
   /**
-  * Returns the Index of the Suit in the defined static array <code>suit</code>.
+  * Returns the Index of the Suit in the defined static array <code>SUITS</code>.
   * @param suit the suit value of this card.
   */
   // NOTE: NOT IN INTERFACE
@@ -61,7 +61,7 @@ public class Card implements CardInterface, Comparable<Card> {
   }
 
   /**
-  * Returns the Index of the rank in the defined static array <code>rank</code>.
+  * Returns the Index of the rank in the defined static array <code>RANKS</code>.
   * @param rank the rank value of this card.
   */
   // NOTE: NOT IN INTERFACE
@@ -97,7 +97,7 @@ public class Card implements CardInterface, Comparable<Card> {
   * @return a String representing a file path.
   */
   public String getImageFile() {
-    return directory + toString() + ".gif";
+    return IMAGE_DIR + toString() + ".gif";
   }
 
 
@@ -141,14 +141,14 @@ public class Card implements CardInterface, Comparable<Card> {
 
   /**
   * Compares two cards for the purposes of sorting.
-  * Cards should be ordered by their rank index as defined in the char static array named rank.
+  * Cards should be ordered by their rank index as defined in the char static array named RANKS.
   * @param otherCard the other card
   * @return a negative integer, zero, or a positive integer if this card is
   * less than, equal to, or greater than the referenced card.
   */
   // NOTE: Unused but the specifications dictate we need it.
   public int compareTo(Card otherCard) {
-    int rankDiff = getRankIndex(this.suitValue) - getRankIndex(otherCard.suitValue);
+    int rankDiff = getRankIndex(this.rankValue) - getRankIndex(otherCard.rankValue);
     return rankDiff;
   }
 

@@ -21,7 +21,7 @@ class SetPanel extends JPanel {
 
   // Instance attributes
   final private Set data;
-  final public JButton[] array = new JButton[4];
+  final public JButton[] array = new JButton[Set.CAPACITY];
 
 
   /**
@@ -29,12 +29,12 @@ class SetPanel extends JPanel {
   */
   public SetPanel(int index) {
     super();
-    data = new Set(Card.rank[index]);
+    data = new Set(Card.RANKS[index]);
 
     for (int i = 0; i < array.length; i++) {
       array[i] = new JButton(" ");
       // array[i].setEnabled(false);
-      // array[i].setIcon(new ImageIcon(Card.directory + BLANK_IMAGE_FILENAME));
+      // array[i].setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
       this.add(array[i]);
     }
   }

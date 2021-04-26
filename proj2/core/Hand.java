@@ -3,7 +3,11 @@ package proj2.core;
 import javax.swing.DefaultListModel;
 
 import proj2.core.Card;
+import proj2.core.Set;
+
 import proj2.interfaces.HandInterface;
+
+import proj2.util.BubbleSort;
 
 
 /**
@@ -95,22 +99,9 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Sort is performed according to the order specified in the {@link Card} class.
   */
   // TODO: T extends Comparable<? super T> declared in method <T>sort(List<T>)
-  // TODO: Hector tiene su propia función de sort...
   public void sort() {
     // Collections.sort(hand);
-
-    int n = hand.size();
-
-    for (int i = 0; i < n - 1; i++) {
-      for (int j = 0; j < n - i - 1; j++) {
-        if (hand.get(j).compareTo(hand.get(j+1)) > 0) {
-          Card temp = hand.get(j);
-          hand.set(j, hand.get(j+1));
-          hand.set(j+1, temp);
-        } 
-      }
-    }
-
+    BubbleSort.sort(hand);
   }
 
 
@@ -149,10 +140,46 @@ public class Hand implements HandInterface, Comparable<Hand> {
   * Searches for the first instance of a set (3 or 4 Cards of the same rank) in the hand.
   * @return  returns Card [] of Cards found in deck or <code>null</code> if not found.
   */
-  // TODO: implement this
-  // TODO: Héctor lo tiene hecho
+  // TODO IMPROVEMENT: COULD SEARCH THE SET THAT WILL GRANT MORE POINTS
   public Card[] findSet() {
+
+    if (hand.size() < Set.MIN_NUM_NECESSARY_TO_FORM_SET) {
+      return null;
+    }
+
+
+    // Sort, just in case
+    this.sort();
+
+
+    // This assumes hand is sorted by rank (i.e. four consecutive aces, three consecutives 2s, etc.)
+    // TODO IMPROVEMENT: can be micro-optimized a bit by manually setting i
+    for (int i = 0; i < hand.size(); i++) {
+
+      // Not enough cards to form a Set
+      if (i + 2 >= hand.size()) {
+        return null;
+      }
+
+      // NOTE: The add() method only adds cards of the same rank
+      char rank = hand.get(i).getRank();
+      Set set = new Set(rank);
+      set.addCard(hand.get(i));
+      set.addCard(hand.get(i + 1));
+      set.addCard(hand.get(i + 2));
+
+      if (i + 3 < hand.size()) {
+        set.addCard(hand.get(i + 3));
+      }
+
+      if (set.isValid()) {
+        return set.getCards();
+      }
+
+    }
+
     return null;
+
   }
 
 
