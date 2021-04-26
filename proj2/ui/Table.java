@@ -52,10 +52,14 @@ public class Table extends JFrame implements ActionListener {
   final private Hand p1Hand = new Hand();
   final private Hand p2Hand = new Hand();
 
+  // Game configuration
+  final private boolean p1IsCPU = false; // TODO: change
+  final private boolean p2IsCPU = true; // TODO: change
+  final private boolean loggingEnabled = false; // TODO: change
+
   // Game flags
   private boolean p1Turn = true;
   private boolean currentPlayerHasDrawn = false;
-  private boolean p2IsCPU = true;
 
   // GUI Component References
   final private SetPanel[] setPanels = new SetPanel[NUM_SETS];
