@@ -104,13 +104,13 @@ public class Table extends JFrame implements ActionListener {
     // NOTE: This is necessary before painting Players' controls
     this.dealCardsToPlayers();
 
+    // Place each player's controls on the table
+    this.paintPlayersControls();
+
     // After dealing to players, the next card from the Deck initiates the Stack
     Card firstStackCard = cardDeck.dealCard();
     stackDeck.addCard(firstStackCard);
     stackGraphic.setIcon(firstStackCard.getCardImage());
-
-    // Place each player's controls on the table
-    this.paintPlayersControls();
 
   }
 
