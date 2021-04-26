@@ -270,7 +270,7 @@ public class Table extends JFrame implements ActionListener {
 
     // Game Over
     if (cardDeck.isEmpty()) {
-      deckGraphic.setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
+      deckGraphic.setIcon(new ImageIcon(Card.BLANK_IMAGE_FILEPATH));
       announceWinner();
     }
 
@@ -293,7 +293,7 @@ public class Table extends JFrame implements ActionListener {
     // First change the image in the stack
     Card topCard = stackDeck.peek();
     if (topCard == null) {
-      stackGraphic.setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
+      stackGraphic.setIcon(new ImageIcon(Card.BLANK_IMAGE_FILEPATH));
     } else {
       stackGraphic.setIcon(topCard.getCardImage());
     }

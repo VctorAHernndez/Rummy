@@ -41,7 +41,7 @@ class CardPileGroupPanel extends JPanel {
     stackLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
     stackGroup.add(stackLabel);
 
-    stackGraphic.setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
+    stackGraphic.setIcon(new ImageIcon(Card.BLANK_IMAGE_FILEPATH));
     stackGraphic.setAlignmentY(Component.CENTER_ALIGNMENT);
     stackGroup.add(stackGraphic);
 
@@ -56,7 +56,7 @@ class CardPileGroupPanel extends JPanel {
     deckLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
     deckGroup.add(deckLabel);
 
-    deckGraphic.setIcon(new ImageIcon(Card.IMAGE_DIR + CARDBACK_IMAGE_FILENAME));
+    deckGraphic.setIcon(new ImageIcon(Card.CARDBACK_IMAGE_FILEPATH));
     deckGraphic.setAlignmentY(Component.CENTER_ALIGNMENT);
     deckGroup.add(deckGraphic);
 

@@ -30,7 +30,7 @@ class SetPanel extends JPanel {
     for (int i = 0; i < array.length; i++) {
       array[i] = new JButton(" ");
       // array[i].setEnabled(false);
-      // array[i].setIcon(new ImageIcon(Card.IMAGE_DIR + BLANK_IMAGE_FILENAME));
+      // array[i].setIcon(new ImageIcon(Card.BLANK_IMAGE_FILEPATH));
       this.add(array[i]);
     }
   }

@@ -16,6 +16,10 @@ public class Card implements CardInterface, Comparable<Card> {
   final public static char[] SUITS = { 'c', 'd', 'h', 's' };
   final public static char[] RANKS = { 'a', '2', '3', '4', '5', '6', '7', '8', '9', 't', 'j', 'q', 'k' };
   final public static String IMAGE_DIR = "cards/";
+  final public static String BLANK_IMAGE_FILENAME = "blank.gif";
+  final public static String CARDBACK_IMAGE_FILENAME = "cardback.png";
+  final public static String BLANK_IMAGE_FILEPATH = IMAGE_DIR + BLANK_IMAGE_FILENAME;
+  final public static String CARDBACK_IMAGE_FILEPATH = IMAGE_DIR + CARDBACK_IMAGE_FILENAME;
 
   // Instance variables
   // NOTE: NOT IN INTERFACE
