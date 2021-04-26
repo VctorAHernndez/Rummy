@@ -55,11 +55,12 @@ public class Table extends JFrame implements ActionListener {
   // Game configuration
   final private boolean p1IsCPU = false; // TODO: change
   final private boolean p2IsCPU = true; // TODO: change
-  final private boolean loggingEnabled = false; // TODO: change
+  final private boolean loggingEnabled = true; // TODO: change
 
   // Game flags
   private boolean p1Turn = true;
   private boolean currentPlayerHasDrawn = false;
+  private boolean announcedPlayerTurn = false;
 
   // GUI Component References
   final private SetPanel[] setPanels = new SetPanel[NUM_SETS];
@@ -115,7 +116,7 @@ public class Table extends JFrame implements ActionListener {
   }
 
   /**
-   * 
+   * Paints Player 1 and Player 2's controls along with the Deck and the Stack.
    */
   private void paintPlayersControls() {
 
@@ -232,6 +233,11 @@ public class Table extends JFrame implements ActionListener {
       p2Hand.addCard(c);
     }
 
+    if (loggingEnabled) {
+      System.out.println("Initial Player 1: " + p1Hand.toString());
+      System.out.println("Initial Player 2: " + p2Hand.toString());
+    }
+
   }
 
   /**
@@ -254,6 +260,10 @@ public class Table extends JFrame implements ActionListener {
    */
   private void announceWinner() {
     int p1MinusP2 = p1Hand.compareTo(p2Hand);
+    int p1Points = p1Hand.evaluateHand();
+    int p2Points = p2Hand.evaluateHand();
+
+    System.out.print("Points: " + p1Points + " (P1) vs. " + p2Points + " (P2)");
 
     if (p1MinusP2 > 0) {
       System.out.println("Player 1 Wins!");
@@ -280,6 +290,14 @@ public class Table extends JFrame implements ActionListener {
 
     // Add card to hand
     playersHand.addCard(card);
+
+    if (loggingEnabled) {
+      if (!announcedPlayerTurn) {
+        System.out.println(p1Turn ? "Player 1" : "Player 2");
+        announcedPlayerTurn = true;
+      }
+      System.out.println("\tAdded: " + card.toString().toUpperCase());
+    }
 
     // Game Over
     if (cardDeck.isEmpty()) {
@@ -313,6 +331,14 @@ public class Table extends JFrame implements ActionListener {
 
     // Then add the removed card to the player's hand
     playersHand.addCard(card);
+
+    if (loggingEnabled) {
+      if (!announcedPlayerTurn) {
+        System.out.println(p1Turn ? "Player 1" : "Player 2");
+        announcedPlayerTurn = true;
+      }
+      System.out.println("\tAdded: " + card.toString().toUpperCase());
+    }
 
   }
 
@@ -376,6 +402,11 @@ public class Table extends JFrame implements ActionListener {
     playersHand.removeCard(selectedCard);
     stackDeck.addCard(selectedCard);
     stackGraphic.setIcon(selectedCard.getCardImage());
+
+    if (loggingEnabled) {
+      System.out.println("\tDiscarded: " + selectedCard.toString().toUpperCase());
+      System.out.println("\tHand now: " + playersHand.toString());
+    }
 
     // Game Over
     if (playersHand.isEmpty()) {
@@ -517,11 +548,13 @@ public class Table extends JFrame implements ActionListener {
         handleDiscard(p1Hand, p1HandPile);
         p1Turn = false;
         currentPlayerHasDrawn = false;
+        announcedPlayerTurn = false;
 
         // AI makes a move
         if (p2IsCPU) {
           makeMove(p2Hand, p2HandPile);
           p1Turn = true;
+          announcedPlayerTurn = false;
         }
 
       }
@@ -556,6 +589,7 @@ public class Table extends JFrame implements ActionListener {
         handleDiscard(p2Hand, p2HandPile);
         p1Turn = true;
         currentPlayerHasDrawn = false;
+        announcedPlayerTurn = false;
 
       }
 

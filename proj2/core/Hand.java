@@ -205,10 +205,18 @@ public class Hand implements HandInterface, Comparable<Hand> {
    * 
    * @return a list of cards held in the hand.
    */
-  // TODO: Héctor tiene su propia función "fancy"
-  // TODO: find out if used?
   public String toString() {
-    return hand.toString();
+    String handString = "";
+    for (int i = 0; i < hand.size(); i++) {
+      String cardString = hand.get(i).toString().toUpperCase();
+
+      if (i != hand.size() - 1) {
+        cardString = cardString.concat(", ");
+      }
+
+      handString = handString.concat(cardString);
+    }
+    return handString;
   }
 
   /**
