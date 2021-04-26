@@ -101,7 +101,23 @@ public class Table extends JFrame implements ActionListener {
     this.preparePlayerControls();
 
     // Prepare each players' hands
+    // NOTE: This is necessary before painting Players' controls
     this.dealCardsToPlayers();
+
+    // After dealing to players, the next card from the Deck initiates the Stack
+    Card firstStackCard = cardDeck.dealCard();
+    stackDeck.addCard(firstStackCard);
+    stackGraphic.setIcon(firstStackCard.getCardImage());
+
+    // Place each player's controls on the table
+    this.paintPlayersControls();
+
+  }
+
+  /**
+   * 
+   */
+  private void paintPlayersControls() {
 
     // Initialize the center section of the table
     JPanel centerSection = new JPanel(new GridLayout(1, 3));
@@ -119,9 +135,6 @@ public class Table extends JFrame implements ActionListener {
 
     // Add middle section to the actual global center
     this.add(centerSection, BorderLayout.CENTER);
-
-    // TODO: UNSURE, after dealing to both players, the next card should be turned
-    // face-up to initiate the discard pile (Stack)
 
   }
 
