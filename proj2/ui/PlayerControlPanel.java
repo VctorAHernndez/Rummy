@@ -11,18 +11,17 @@ import javax.swing.JPanel;
 
 import proj2.core.Card;
 
-
 /**
  * Creates a player's controls, including Draw, Discard and Lay buttons.
  */
 @SuppressWarnings("serial")
 class PlayerControlPanel extends JPanel {
 
-
   /**
-  * Creates a player's controls, including Draw, Discard and Lay buttons.
-  */
-  public PlayerControlPanel(String name, JList<Card> hand, JButton drawFromStack, JButton drawFromDeck, JButton layOnTableButton, JButton discardButton) {
+   * Creates a player's controls, including Draw, Discard and Lay buttons.
+   */
+  public PlayerControlPanel(String name, JList<Card> hand, JButton drawFromStack, JButton drawFromDeck,
+      JButton layOnTableButton, JButton discardButton) {
 
     // model = hand.createSelectionModel();
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -51,6 +50,5 @@ class PlayerControlPanel extends JPanel {
     this.add(Box.createGlue());
 
   }
-
 
 }

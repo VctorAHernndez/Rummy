@@ -10,13 +10,11 @@ import javax.swing.JPanel;
 
 import proj2.core.Card;
 
-
 /**
  * Creates the images and labels of the Deck and stack.
  */
 @SuppressWarnings("serial")
 class CardPileGroupPanel extends JPanel {
-
 
   // Class attributes
   final private static String STACK_LABEL_TEXT = "Stack";
@@ -24,10 +22,9 @@ class CardPileGroupPanel extends JPanel {
   final private static String BLANK_IMAGE_FILENAME = "blank.gif";
   final private static String CARDBACK_IMAGE_FILENAME = "cardback.png";
 
-
   /**
-  * Creates the images and labels of the Deck and stack.
-  */
+   * Creates the images and labels of the Deck and stack.
+   */
   public CardPileGroupPanel(JLabel stackGraphic, JLabel deckGraphic) {
 
     super();
@@ -35,7 +32,6 @@ class CardPileGroupPanel extends JPanel {
     // Create container where the Deck and the Stack sit in the table
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     this.add(Box.createGlue());
-
 
     // Create a graphic UI component representing the stack
     JPanel stackGroup = new JPanel();
@@ -52,7 +48,6 @@ class CardPileGroupPanel extends JPanel {
     this.add(stackGroup);
     this.add(Box.createGlue());
 
-
     // Create a graphic UI component representing the deck
     JPanel deckGroup = new JPanel();
     deckGroup.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -65,12 +60,10 @@ class CardPileGroupPanel extends JPanel {
     deckGraphic.setAlignmentY(Component.CENTER_ALIGNMENT);
     deckGroup.add(deckGraphic);
 
-
     // Add both the Deck and the Stack to the container
     this.add(deckGroup);
     this.add(Box.createGlue());
 
   }
-
 
 }

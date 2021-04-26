@@ -2,7 +2,6 @@ package proj2.interfaces;
 
 import proj2.core.Card;
 
-
 public interface DeckInterface {
 
   public Card peek();
