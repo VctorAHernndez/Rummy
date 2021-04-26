@@ -128,7 +128,7 @@ public class Table extends JFrame implements ActionListener {
   /**
    * Creates slots in the Table where the players can lay their sets.
    */
-  public void createSetPanelsInTable() {
+  private void createSetPanelsInTable() {
 
     // Instantiate the 13 set piles in the UI
     for (int i = 0; i < Card.RANKS.length; i++) {
@@ -179,7 +179,7 @@ public class Table extends JFrame implements ActionListener {
   /**
    * Registers the buttons in the UI to enable user interaction.
    */
-  public void preparePlayerControls() {
+  private void preparePlayerControls() {
 
     // Create Player 1's interactive buttons
     p1DrawFromDeckButton.addActionListener(this);

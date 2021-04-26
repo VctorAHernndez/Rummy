@@ -144,7 +144,6 @@ public class Card implements CardInterface, Comparable<Card> {
    * @return a negative integer, zero, or a positive integer if this card is less
    *         than, equal to, or greater than the referenced card.
    */
-  // NOTE: Unused but the specifications dictate we need it.
   public int compareTo(Card otherCard) {
     int rankDiff = getRankIndex(this.rankValue) - getRankIndex(otherCard.rankValue);
     return rankDiff;
