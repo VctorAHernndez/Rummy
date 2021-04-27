@@ -6,7 +6,7 @@ import java.util.List;
 import proj2.ui.Table;
 
 public class Proj2 {
-  
+
   // TODO: IMPROVEMENT, USE A LOGGING CLASS INSTEAD
   // TODO: IMPROVEMENT, USE A SPECIALIZED CLASS FOR PARSING ARGUMENTS
   public static void main(String args[]) {
@@ -20,7 +20,8 @@ public class Proj2 {
     // Pre-parse arguments
     List<String> arguments = Arrays.asList(args);
     boolean containsAtLeastH = arguments.contains("-h");
-    boolean containsAtLeastOneValidNumber = arguments.contains("-0") || arguments.contains("-1") || arguments.contains("-2");
+    boolean containsAtLeastOneValidNumber = arguments.contains("-0") || arguments.contains("-1")
+        || arguments.contains("-2");
 
     // Default Flags
     boolean p1IsCPU = false;
@@ -53,20 +54,19 @@ public class Proj2 {
 
     // Switch flags accordingly
     switch (numberOfInteractivePlayers) {
-      case 0:
-        p1IsCPU = true;
-        p2IsCPU = true;
-        break;
-      case 1:
-        p2IsCPU = true;
-        break;
-      case 2:
-      default:
+    case 0:
+      p1IsCPU = true;
+      p2IsCPU = true;
+      break;
+    case 1:
+      p2IsCPU = true;
+      break;
+    case 2:
+    default:
     }
 
-    // TODO: Actually implement logging
     // TODO: Actually implement 0 interactive players
-    // TODO: Actually switch between 1 and 2 interactive players
+    // TODO: Switch between 1 and 2 players (with p2IsCPU == false || true)
     Table t = new Table();
     t.setVisible(true);
 
