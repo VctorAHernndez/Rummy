@@ -1,0 +1,226 @@
+Initial Player 1: AD, 3S, 5S, 6H, 7S, 8C, 8D, JC, JH
+Initial Player 2: AC, 2C, 6S, 8S, 9S, 9H, 9D, JD, QC
+Player 1
+	Added: JS
+	Discarded: 3S
+	Hand now: AD, 5S, 6H, 7S, 8C, 8D, JC, JH, JS
+Player 2
+	Added: 9C
+	Discarded: 8S
+	Hand now: AC, 2C, 6S, 9S, 9H, 9D, 9C, JD, QC
+Player 1
+	Added: QS
+	Discarded: 8C
+	Hand now: AD, 5S, 6H, 7S, 8D, JC, JH, JS, QS
+Player 2
+	Added: 6D
+	Discarded: QC
+	Hand now: AC, 2C, 6S, 6D, 9S, 9H, 9D, 9C, JD
+Player 1
+	Added: QC
+	Discarded: 8D
+	Hand now: AD, 5S, 6H, 7S, JC, JH, JS, QS, QC
+Player 2
+	Added: 8D
+	Discarded: AC
+	Hand now: 2C, 6S, 6D, 8D, 9S, 9H, 9D, 9C, JD
+Player 1
+	Added: 5D
+	Discarded: QC
+	Hand now: AD, 5S, 5D, 6H, 7S, JC, JH, JS, QS
+Player 2
+	Added: QC
+	Discarded: 9S
+	Hand now: 2C, 6S, 6D, 8D, 9H, 9D, 9C, JD, QC
+Player 1
+	Added: QD
+	Discarded: QD
+	Hand now: AD, 5S, 5D, 6H, 7S, JC, JH, JS, QS
+Player 2
+	Added: QD
+	Discarded: 9D
+	Hand now: 2C, 6S, 6D, 8D, 9H, 9C, JD, QC, QD
+Player 1
+	Added: TH
+	Discarded: QS
+	Hand now: AD, 5S, 5D, 6H, 7S, TH, JC, JH, JS
+Player 2
+	Added: 4H
+	Discarded: 2C
+	Hand now: 4H, 6S, 6D, 8D, 9H, 9C, JD, QC, QD
+Player 1
+	Added: 2C
+	Discarded: JS
+	Hand now: AD, 2C, 5S, 5D, 6H, 7S, TH, JC, JH
+Player 2
+	Added: TC
+	Discarded: 8D
+	Hand now: 4H, 6S, 6D, 9H, 9C, TC, JD, QC, QD
+Player 1
+	Added: 8D
+	Discarded: JH
+	Hand now: AD, 2C, 5S, 5D, 6H, 7S, 8D, TH, JC
+Player 2
+	Added: JH
+	Discarded: 9H
+	Hand now: 4H, 6S, 6D, 9C, TC, JD, JH, QC, QD
+Player 1
+	Added: 4D
+	Discarded: JC
+	Hand now: AD, 2C, 4D, 5S, 5D, 6H, 7S, 8D, TH
+Player 2
+	Added: 2H
+	Discarded: QD
+	Hand now: 2H, 4H, 6S, 6D, 9C, TC, JD, JH, QC
+Player 1
+	Added: TS
+	Discarded: TS
+	Hand now: AD, 2C, 4D, 5S, 5D, 6H, 7S, 8D, TH
+Player 2
+	Added: TS
+	Discarded: 4H
+	Hand now: 2H, 6S, 6D, 9C, TC, TS, JD, JH, QC
+Player 1
+	Added: 4H
+	Discarded: TH
+	Hand now: AD, 2C, 4D, 4H, 5S, 5D, 6H, 7S, 8D
+Player 2
+	Added: TH
+	Discarded: 6D
+	Hand now: 2H, 6S, 9C, TC, TS, TH, JD, JH, QC
+Player 1
+	Added: 6D
+	Discarded: 8D
+	Hand now: AD, 2C, 4D, 4H, 5S, 5D, 6H, 6D, 7S
+Player 2
+	Added: KC
+	Discarded: 9C
+	Hand now: 2H, 6S, TC, TS, TH, JD, JH, QC, KC
+Player 1
+	Added: KD
+	Discarded: KD
+	Hand now: AD, 2C, 4D, 4H, 5S, 5D, 6H, 6D, 7S
+Player 2
+	Added: 4C
+	Discarded: 4C
+	Hand now: 2H, 6S, TC, TS, TH, JD, JH, QC, KC
+Player 1
+	Added: 4C
+	Discarded: 7S
+	Hand now: AD, 2C, 4D, 4H, 4C, 5S, 5D, 6H, 6D
+Player 2
+	Added: 7S
+	Discarded: TH
+	Hand now: 2H, 6S, 7S, TC, TS, JD, JH, QC, KC
+Player 1
+	Added: 7C
+	Discarded: 7C
+	Hand now: AD, 2C, 4D, 4H, 4C, 5S, 5D, 6H, 6D
+Player 2
+	Added: 7D
+	Discarded: QC
+	Hand now: 2H, 6S, 7S, 7D, TC, TS, JD, JH, KC
+Player 1
+	Added: 4S
+	Laying 4d
+	Laying 4h
+	Laying 4c
+	Laying 4s
+	Discarded: 6D
+	Hand now: AD, 2C, 5S, 5D, 6H
+Player 2
+	Added: AH
+	Discarded: TS
+	Hand now: AH, 2H, 6S, 7S, 7D, TC, JD, JH, KC
+Player 1
+	Added: 5C
+	Discarded: 6H
+	Hand now: AD, 2C, 5S, 5D, 5C
+Player 2
+	Added: 6H
+	Discarded: 7D
+	Hand now: AH, 2H, 6S, 6H, 7S, TC, JD, JH, KC
+Player 1
+	Added: 6C
+	Discarded: 6C
+	Hand now: AD, 2C, 5S, 5D, 5C
+Player 2
+	Added: 6C
+	Discarded: JD
+	Hand now: AH, 2H, 6S, 6H, 6C, 7S, TC, JH, KC
+Player 1
+	Added: 3C
+	Discarded: 5C
+	Hand now: AD, 2C, 3C, 5S, 5D
+Player 2
+	Added: 5C
+	Discarded: TC
+	Hand now: AH, 2H, 5C, 6S, 6H, 6C, 7S, JH, KC
+Player 1
+	Added: AS
+	Discarded: 5D
+	Hand now: AD, AS, 2C, 3C, 5S
+Player 2
+	Added: 2D
+	Discarded: 6H
+	Hand now: AH, 2H, 2D, 5C, 6S, 6C, 7S, JH, KC
+Player 1
+	Added: 8H
+	Discarded: 8H
+	Hand now: AD, AS, 2C, 3C, 5S
+Player 2
+	Added: KH
+	Discarded: AH
+	Hand now: 2H, 2D, 5C, 6S, 6C, 7S, JH, KC, KH
+Player 1
+	Added: AH
+	Discarded: 5S
+	Hand now: AD, AS, AH, 2C, 3C
+Player 2
+	Added: 5S
+	Discarded: 5S
+	Hand now: 2H, 2D, 5C, 6S, 6C, 7S, JH, KC, KH
+Player 1
+	Added: 2S
+	Discarded: 3C
+	Hand now: AD, AS, AH, 2C, 2S
+Player 2
+	Added: 3C
+	Discarded: 2H
+	Hand now: 2D, 3C, 5C, 6S, 6C, 7S, JH, KC, KH
+Player 1
+	Added: 2H
+	Discarded: 2H
+	Hand now: AD, AS, AH, 2C, 2S
+Player 2
+	Added: 3D
+	Discarded: 3C
+	Hand now: 2D, 3D, 5C, 6S, 6C, 7S, JH, KC, KH
+Player 1
+	Added: 3C
+	Discarded: 3C
+	Hand now: AD, AS, AH, 2C, 2S
+Player 2
+	Added: 3C
+	Discarded: 3D
+	Hand now: 2D, 3C, 5C, 6S, 6C, 7S, JH, KC, KH
+Player 1
+	Added: QH
+	Discarded: QH
+	Hand now: AD, AS, AH, 2C, 2S
+Player 2
+	Added: 3H
+	Discarded: 3H
+	Hand now: 2D, 3C, 5C, 6S, 6C, 7S, JH, KC, KH
+Player 1
+	Added: 7H
+	Discarded: 7H
+	Hand now: AD, AS, AH, 2C, 2S
+Player 2
+	Added: 5H
+	Discarded: JH
+	Hand now: 2D, 3C, 5C, 5H, 6S, 6C, 7S, KC, KH
+Player 1
+	Added: KS
+Points: 17 (P1) vs. 54 (P2)
+Player 1 Wins!

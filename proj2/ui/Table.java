@@ -249,7 +249,7 @@ public class Table extends JFrame implements ActionListener {
     char suit = card.getSuit();
     int suitIndex = Card.getSuitIndex(suit);
     int rankIndex = Card.getRankIndex(rank);
-    System.out.println("Laying " + card);
+    System.out.println("\tLaying " + card);
     // setPanels[rankIndex].array[suitIndex].setText(card.toString());
     setPanels[rankIndex].array[suitIndex].setIcon(card.getCardImage());
   }
@@ -262,15 +262,19 @@ public class Table extends JFrame implements ActionListener {
     int p1Points = p1Hand.evaluateHand();
     int p2Points = p2Hand.evaluateHand();
 
-    System.out.print("Points: " + p1Points + " (P1) vs. " + p2Points + " (P2)");
+    System.out.println("Points: " + p1Points + " (P1) vs. " + p2Points + " (P2)");
 
-    if (p1MinusP2 > 0) {
+    if (p1MinusP2 < 0) {
       System.out.println("Player 1 Wins!");
     } else if (p1MinusP2 == 0) {
       System.out.println("It's a tie!");
     } else {
       System.out.println("Player 2 Wins!");
     }
+
+    // TODO: IMPROVEMENT, INSTEAD OF ABRUPTLY, DO SOMETHING ELSE
+    System.exit(0);
+
   }
 
   /**

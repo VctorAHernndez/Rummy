@@ -35,6 +35,7 @@ class CardPileGroupPanel extends JPanel {
     JPanel stackGroup = new JPanel();
     stackGroup.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+    // TODO: IMPROVEMENT, DISPLAY THE NUMBER OF CARDS ON THE STACK
     JLabel stackLabel = new JLabel(STACK_LABEL_TEXT);
     stackLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
     stackGroup.add(stackLabel);
@@ -50,6 +51,7 @@ class CardPileGroupPanel extends JPanel {
     JPanel deckGroup = new JPanel();
     deckGroup.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+    // TODO: IMPROVEMENT, DISPLAY THE NUMBER OF CARDS ON THE DECK
     JLabel deckLabel = new JLabel(DECK_LABEL_TEXT);
     deckLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
     deckGroup.add(deckLabel);
