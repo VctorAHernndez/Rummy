@@ -19,8 +19,6 @@ class CardPileGroupPanel extends JPanel {
   // Class attributes
   final private static String STACK_LABEL_TEXT = "Stack";
   final private static String DECK_LABEL_TEXT = "Deck";
-  final private static String BLANK_IMAGE_FILENAME = "blank.gif";
-  final private static String CARDBACK_IMAGE_FILENAME = "cardback.png";
 
   /**
    * Creates the images and labels of the Deck and stack.

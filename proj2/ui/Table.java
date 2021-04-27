@@ -43,7 +43,6 @@ public class Table extends JFrame implements ActionListener {
   final private static String DRAW_FROM_DECK_BUTTON_TEXT = "Draw from Deck";
   final private static String LAY_ON_TABLE_BUTTON_TEXT = "Lay on Table";
   final private static String DISCARD_BUTTON_TEXT = "Discard";
-  final private static String BLANK_IMAGE_FILENAME = "blank.gif";
 
   // Data Models
   final private Deck cardDeck = new Deck(); // creates a shuffled deck of 52 cards
