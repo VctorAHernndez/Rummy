@@ -46,8 +46,10 @@ public class Set implements SetInterface, Comparable<Set> {
       return false;
     }
 
-    Set set = new Set(list.get(0).getRank());
-    for (int i = 1; i < list.size(); i++) {
+    Card firstCard = list.get(0);
+    Set set = new Set(firstCard.getRank());
+
+    for (int i = 0; i < list.size(); i++) {
       set.addCard(list.get(i));
     }
 
@@ -62,9 +64,9 @@ public class Set implements SetInterface, Comparable<Set> {
    */
   // NOTE: NOT IN INTERFACE
   public boolean isValid() {
-    boolean a = hand.size() < CAPACITY;
-    boolean b = hand.size() >= MIN_NUM_NECESSARY_TO_FORM_SET;
-    return a && b;
+    boolean above = hand.size() <= CAPACITY;
+    boolean below = hand.size() >= MIN_NUM_NECESSARY_TO_FORM_SET;
+    return above && below;
   }
 
   /**

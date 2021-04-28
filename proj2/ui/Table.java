@@ -299,7 +299,7 @@ public class Table extends JFrame implements ActionListener {
         System.out.println(p1Turn ? "Player 1" : "Player 2");
         announcedPlayerTurn = true;
       }
-      System.out.println("\tAdded: " + card.toString().toUpperCase());
+      System.out.println("\tAdded from Deck: " + card.toString().toUpperCase());
     }
 
     // Game Over
@@ -340,7 +340,7 @@ public class Table extends JFrame implements ActionListener {
         System.out.println(p1Turn ? "Player 1" : "Player 2");
         announcedPlayerTurn = true;
       }
-      System.out.println("\tAdded: " + card.toString().toUpperCase());
+      System.out.println("\tAdded from Stack: " + card.toString().toUpperCase());
     }
 
   }
@@ -351,15 +351,17 @@ public class Table extends JFrame implements ActionListener {
    * @param playersHand     the Hand of the player who clicked on the button.
    * @param playersHandPile the UI representation of the player's hand.
    */
-  // TODO: validate... no me salió manualmente :(
   private void handleLayOnTable(Hand playersHand, JList<Card> playersHandPile) {
 
     List<Card> selectedCards = playersHandPile.getSelectedValuesList();
 
-    if (selectedCards == null) {
+    // Abort if there are no selected cards
+    if (selectedCards.isEmpty()) {
       return;
     }
 
+    // If only one card is selected, check that it fits in Sets already on the table
+    // Else, process more than 1 card
     if (selectedCards.size() == 1) {
       // TODO: check that it fits in sets or runs already on the table
     } else {
@@ -370,6 +372,7 @@ public class Table extends JFrame implements ActionListener {
         return;
       }
 
+      // Lay Set on table, one card at a time
       for (int i = 0; i < selectedCards.size(); i++) {
         Card card = selectedCards.get(i);
         layCardOnTable(card);
@@ -487,7 +490,7 @@ public class Table extends JFrame implements ActionListener {
         p1LayOnTableButton.setEnabled(true);
         p1DiscardButton.setEnabled(true);
       } else {
-        p1DrawFromDeckButton.setEnabled(true);
+        p1DrawFromDeckButton.setEnabled(!cardDeck.isEmpty());
         p1DrawFromStackButton.setEnabled(!stackDeck.isEmpty());
         p1LayOnTableButton.setEnabled(false);
         p1DiscardButton.setEnabled(false);
@@ -501,7 +504,7 @@ public class Table extends JFrame implements ActionListener {
         p2LayOnTableButton.setEnabled(true);
         p2DiscardButton.setEnabled(true);
       } else {
-        p2DrawFromDeckButton.setEnabled(true);
+        p2DrawFromDeckButton.setEnabled(!cardDeck.isEmpty());
         p2DrawFromStackButton.setEnabled(!stackDeck.isEmpty());
         p2LayOnTableButton.setEnabled(false);
         p2DiscardButton.setEnabled(false);
