@@ -30,8 +30,24 @@ public class Set implements SetInterface, Comparable<Set> {
   // NOTE: NOT IN INTERFACE
   public Set(char rank) {
     super();
-    rankIndex = Card.getRankIndex(rank);
+    this.rankIndex = Card.getRankIndex(rank);
     this.rank = rank;
+  }
+
+  /**
+   * Creates a set with the given List<Card>
+   * 
+   * @param cards list of cards to be used
+   */
+  public Set(List<Card> cards) {
+    super();
+    Card firstCard = cards.get(0);
+    this.rankIndex = Card.getRankIndex(firstCard.getRank());
+    this.rank = firstCard.getRank();
+
+    for (int i = 0; i < cards.size(); i++) {
+      addCard(cards.get(i));
+    }
   }
 
   /**

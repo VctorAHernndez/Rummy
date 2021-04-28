@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -46,10 +47,12 @@ public class Table extends JFrame implements ActionListener {
 
   // Data Models
   final private Deck cardDeck = new Deck(); // creates a shuffled deck of 52 cards
-  final private Stack stackDeck = new Stack(); // creates an empty stack
+  final private Stack stackDeck = new Stack(); // creates an empty card stack
 
   final private Hand p1Hand = new Hand();
   final private Hand p2Hand = new Hand();
+
+  final private List<Set> laidSets = new ArrayList<Set>(); // creates a list of sets layed on the table
 
   // Game configuration
   final private boolean p1IsCPU = false; // TODO: change
@@ -250,7 +253,7 @@ public class Table extends JFrame implements ActionListener {
     char suit = card.getSuit();
     int suitIndex = Card.getSuitIndex(suit);
     int rankIndex = Card.getRankIndex(rank);
-    System.out.println("\tLaying " + card);
+    System.out.println("\tLaying " + card.toString().toUpperCase());
     // setPanels[rankIndex].array[suitIndex].setText(card.toString());
     setPanels[rankIndex].array[suitIndex].setIcon(card.getCardImage());
   }
@@ -356,31 +359,55 @@ public class Table extends JFrame implements ActionListener {
 
     List<Card> selectedCards = playersHandPile.getSelectedValuesList();
 
+    /* NO CARDS SELECTED SECTION */
     // Abort if there are no selected cards
     if (selectedCards.isEmpty()) {
       return;
     }
 
-    // If only one card is selected, check that it fits in Sets already on the table
-    // Else, process more than 1 card
+    /* ONE CARD SELECTED SECTION */
+    // If only one card is selected, check if it fits in a Set already on the table
+    // TODO: IMPROVEMENT, TRY TO LAY IT ON AN EXISTING RUN ON THE TABLE
     if (selectedCards.size() == 1) {
-      // TODO: check that it fits in sets or runs already on the table
-    } else {
 
-      // First check if selectedCards forms a set before laying
-      // TODO: IMPROVEMENT, check if selectedCards forms a run before laying
-      if (!Set.isSet(selectedCards)) {
-        return;
+      Card selectedCard = selectedCards.get(0);
+
+      // Find the Set where the card fits, and lay it on the table
+      for (int i = 0; i < laidSets.size(); i++) {
+        if (selectedCard.getRank() == laidSets.get(i).getRank()) {
+          laidSets.get(i).addCard(selectedCard);
+          layCardOnTable(selectedCard);
+          playersHand.removeCard(selectedCard);
+          break;
+        }
       }
 
-      // Lay Set on table, one card at a time
-      for (int i = 0; i < selectedCards.size(); i++) {
-        Card card = selectedCards.get(i);
-        layCardOnTable(card);
-        playersHand.removeCard(card);
+      // Game Over
+      if (playersHand.isEmpty()) {
+        announceWinner();
       }
+
+      return;
 
     }
+
+    /* MULTIPLE CARDS SELECTED SECTION */
+    // First check if selectedCards forms a Set before laying
+    // TODO: IMPROVEMENT, CHECK IF WE CAN LAY A RUN ON THE TABLE
+    if (!Set.isSet(selectedCards)) {
+      return;
+    }
+
+    // Lay Set on table, one card at a time
+    for (int i = 0; i < selectedCards.size(); i++) {
+      Card card = selectedCards.get(i);
+      layCardOnTable(card);
+      playersHand.removeCard(card);
+    }
+
+    // Keep track of the Set that has been layed on the table (for later)
+    Set newSet = new Set(selectedCards);
+    laidSets.add(newSet);
 
     // Game Over
     if (playersHand.isEmpty()) {
@@ -429,6 +456,7 @@ public class Table extends JFrame implements ActionListener {
    * @param playersHand     the Hand of the player who clicked on the button.
    * @param playersHandPile the UI representation of the player's hand.
    */
+  // TODO: IMPROVEMENT, AI SHOULD ALSO TRY TO LAY RUNS IN THE TABLE
   private void makeMove(Hand playersHand, JList<Card> playersHandPile) {
 
     // Draw from Deck or Stack
@@ -437,6 +465,7 @@ public class Table extends JFrame implements ActionListener {
     } else {
 
       // Choose whether to draw from Deck or from Stack
+      // TODO: IMPROVEMENT, CHECK WHICH OPTION IS MORE BENEFICIAL
       int oneOrTwo = ThreadLocalRandom.current().nextInt(1, 3);
       if (oneOrTwo == 1) {
         handleDrawFromDeck(playersHand);
@@ -446,12 +475,8 @@ public class Table extends JFrame implements ActionListener {
 
     }
 
-    // Search for a set in the hand and lay on the table (if possible)
-    // TODO: IMPROVEMENT, THIS IS ACTUALLY PART OF THE AI LOGIC, SO WE SHOULD CHOOSE
-    // RANDOMLY WHETHER TO DO IT OR NOT INSTEAD OF ALWAYS DOING IT
-    // TODO: IMPROVEMENT, SHOULD ALSO TRY TO LAY RUNS IN THE TABLE
-    // TODO: IMPROVEMENT, THIS SHOULD LAY CARDS THAT FIT IN SETS OR RUNS ALREADY ON
-    // THE TABLE
+    // Search for a Set in the hand and lay on the table (if possible)
+    // TODO: IMPROVEMENT, LOOP LOGIC SO THAT AI LAYS MULTIPLE SETS OR MORE CARDS
     Card[] set = playersHand.findSet();
     if (set != null) {
 
@@ -464,6 +489,9 @@ public class Table extends JFrame implements ActionListener {
       playersHandPile.setSelectedIndices(indices);
 
       handleLayOnTable(playersHand, playersHandPile);
+
+    } else {
+      // TODO: IMPROVEMENT, LAY A CARD THAT FITS IN SETS ALREADY ON THE TABLE
     }
 
     // Select a random card from the hand to discard
