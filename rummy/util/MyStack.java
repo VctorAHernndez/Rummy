@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Basic Stack ADT implemented from scratch. Contains the typical stack methods:
- * <code>pop()</code>, <code>push()</code>, <code>top()</code>,
+ * <code>pop()</code>, <code>push()</code>, <code>peek()</code>,
  * <code>isEmpty()</code> and <code>size()</code>.
  */
 public class MyStack<T> {
