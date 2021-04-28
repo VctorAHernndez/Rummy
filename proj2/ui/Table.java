@@ -97,9 +97,6 @@ public class Table extends JFrame implements ActionListener {
     // Create all the Set UI components in the table
     this.createSetPanelsInTable();
 
-    // Initialize all the interactive components for both players
-    this.preparePlayerControls();
-
     // Prepare each players' hands
     // NOTE: This is necessary before painting Players' controls
     this.dealCardsToPlayers();
@@ -108,9 +105,13 @@ public class Table extends JFrame implements ActionListener {
     this.paintPlayersControls();
 
     // After dealing to players, the next card from the Deck initiates the Stack
+    // NOTE: This is necessary before preparing Players' controls
     Card firstStackCard = cardDeck.dealCard();
     stackDeck.addCard(firstStackCard);
     stackGraphic.setIcon(firstStackCard.getCardImage());
+
+    // Initialize all the interactive components for both players
+    this.preparePlayerControls();
 
   }
 
@@ -197,7 +198,7 @@ public class Table extends JFrame implements ActionListener {
     // Create Player 1's interactive buttons
     p1DrawFromDeckButton.addActionListener(this);
     p1DrawFromStackButton.addActionListener(this);
-    p1DrawFromStackButton.setEnabled(false); // stack is initially empty
+    p1DrawFromStackButton.setEnabled(!stackDeck.isEmpty()); // stack may be initially empty
     p1LayOnTableButton.addActionListener(this);
     p1LayOnTableButton.setEnabled(false);
     p1DiscardButton.addActionListener(this);

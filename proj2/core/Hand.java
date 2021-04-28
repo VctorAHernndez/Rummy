@@ -88,13 +88,49 @@ public class Hand implements HandInterface, Comparable<Hand> {
   }
 
   /**
-   * Sorts the card in the hand. Sort is performed according to the order
-   * specified in the {@link Card} class.
+   * Sorts the card in the hand. Sort is performed first by rank and then by suit.
    */
-  // TODO: IMPROVEMENT, TRY USING COLLECTIONS CLASS INSTEAD OF CUSTOM CLASS
+  // TODO: IMPROVEMENT, TRY USING COLLECTIONS.SORT INSTEAD OF CUSTOM CLASS
   public void sort() {
-    // Collections.sort(hand);
-    BubbleSort.sort(hand);
+
+    // First, sort by Rank
+    BubbleSort.sortByRank(hand);
+
+    // Then, sort each Rank group by Suit
+    DefaultListModel<Card> newHand = new DefaultListModel<Card>();
+
+    for (int i = 0; i < hand.size(); i++) {
+
+      Card groupLeader = hand.get(i);
+      char groupRank = groupLeader.getRank();
+
+      int j = i;
+      DefaultListModel<Card> subhandOfSameRank = new DefaultListModel<Card>();
+
+      while (j < hand.size() && hand.get(j).getRank() == groupRank) {
+        subhandOfSameRank.addElement(hand.get(j));
+        j += 1;
+      }
+
+      // Sort subhand by suit
+      BubbleSort.sortBySuit(subhandOfSameRank);
+
+      // Append subhand to newHand
+      for (int k = 0; k < subhandOfSameRank.size(); k++) {
+        newHand.addElement(subhandOfSameRank.get(k));
+      }
+
+      // Advance index to the next rank group
+      i = j - 1;
+
+    }
+
+    // Set old hand equal to the sorted one
+    hand.clear();
+    for (int i = 0; i < newHand.size(); i++) {
+      hand.addElement(newHand.get(i));
+    }
+
   }
 
   /**
