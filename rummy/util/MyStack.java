@@ -1,4 +1,4 @@
-package proj2.util;
+package rummy.util;
 
 import java.util.ArrayList;
 import java.util.List;

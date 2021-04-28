@@ -1,9 +1,9 @@
-package proj2.core;
+package rummy.core;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import proj2.interfaces.SetInterface;
+import rummy.interfaces.SetInterface;
 
 /**
  * Represents the basic functionality of a set of cards. Has a capacity of 4

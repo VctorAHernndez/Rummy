@@ -1,4 +1,4 @@
-package proj2.interfaces;
+package rummy.interfaces;
 
 import javax.swing.ImageIcon;
 

@@ -1,8 +1,8 @@
-package proj2.core;
+package rummy.core;
 
 import javax.swing.ImageIcon;
 
-import proj2.interfaces.CardInterface;
+import rummy.interfaces.CardInterface;
 
 /**
  * Representation of a single playing card. A card consists of a suit value

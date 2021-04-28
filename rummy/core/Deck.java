@@ -1,9 +1,9 @@
-package proj2.core;
+package rummy.core;
 
 import java.util.Collections;
 import java.util.LinkedList;
 
-import proj2.interfaces.DeckInterface;
+import rummy.interfaces.DeckInterface;
 
 /**
  * Represents the basic functionality of a deck of cards, including adding,

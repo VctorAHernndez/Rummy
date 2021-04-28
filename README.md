@@ -9,8 +9,8 @@ This project is an interactive version of the Rummy card game. Provided some bas
 
 1. Clone this repository
 2. `cd` into this repository
-3. Compile the source files with `javac proj2/Proj2.java`
-4. Run the program `java proj2.Proj2`
+3. Compile the source files with `javac rummy/Main.java`
+4. Run the program `java rummy.Main`
 
 ## Rules of the game
 
@@ -67,14 +67,14 @@ This project is an interactive version of the Rummy card game. Provided some bas
 - The program takes two kinds of command line arguments ~(which is already processed in the provided code)~:
   - the `-h` flag enables logging of actions (the default is no logging)
   - ~the `-0`, `-1`, and `-2` flags indicate the number of interactive players in the game (the default is `-0`, indicating both players are automated)~
-- By default, the provided code can be run directly from the `Table.java` file, whose `main` method should be extracted into a separate file called `Proj2.java`
-- You should wrap the whole project in a package named `proj2`
+- By default, the provided code can be run directly from the `Table.java` file, whose `main` method should be extracted into a separate file called ~`Proj2.java`~ `Main.java`
+- You should wrap the whole project in a package named ~`proj2`~ `rummy`
 - The last line should be either `Player 1 Wins!`, `Player 2 Wins!` or `It's a tie!`
 
 ### Notes and Hints
 
 - The project is in Java 13 SE
-- To create the file containing your logs, use the command `java proj2.Proj2 > output.txt` (after compiling, of course)
+- To create the file containing your logs, use the command `java rummy.Main > output.txt` (after compiling, of course)
 
 ### Deadlines and Disclaimers
 
@@ -98,7 +98,7 @@ This project is an interactive version of the Rummy card game. Provided some bas
 
 ### Deliverables
 
-- `*.java` files (including `Proj2.java` and `Card.java`)
+- `*.java` files (including ~`Proj2.java`~ `Main.java` and `Card.java`)
 - `output.txt`
 - `README.md` (including instructions for how to run and interact your GUI)
 - Any items required for extra credit options

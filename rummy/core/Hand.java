@@ -1,10 +1,10 @@
-package proj2.core;
+package rummy.core;
 
 import javax.swing.DefaultListModel;
 
-import proj2.interfaces.HandInterface;
+import rummy.interfaces.HandInterface;
 
-import proj2.util.BubbleSort;
+import rummy.util.BubbleSort;
 
 /**
  * Represents the basic functionality of a hand of cards. Extensions of this

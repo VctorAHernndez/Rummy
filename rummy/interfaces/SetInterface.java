@@ -1,6 +1,6 @@
-package proj2.interfaces;
+package rummy.interfaces;
 
-import proj2.core.Card;
+import rummy.core.Card;
 
 public interface SetInterface {
 

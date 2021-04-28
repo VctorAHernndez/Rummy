@@ -1,11 +1,11 @@
-package proj2;
+package rummy;
 
 import java.util.Arrays;
 import java.util.List;
 
-import proj2.ui.Table;
+import rummy.ui.Table;
 
-public class Proj2 {
+public class Main {
 
   // TODO: IMPROVEMENT, USE A LOGGING CLASS INSTEAD
   // TODO: IMPROVEMENT, USE A SPECIALIZED CLASS FOR PARSING ARGUMENTS
@@ -13,7 +13,7 @@ public class Proj2 {
 
     // Only allow a max of two arguments
     if (args.length > 2) {
-      System.out.println("Usage is java proj2.Proj2 [-h] [{-0, -1, -2}]");
+      System.out.println("Usage is java rummy.Main [-h] [{-0, -1, -2}]");
       return;
     }
 

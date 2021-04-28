@@ -1,6 +1,6 @@
-package proj2.core;
+package rummy.core;
 
-import proj2.util.MyStack;
+import rummy.util.MyStack;
 
 /**
  * Represents the basic functionality of a stack of cards, including adding and

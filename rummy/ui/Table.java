@@ -1,4 +1,4 @@
-package proj2.ui;
+package rummy.ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,11 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import proj2.core.Card;
-import proj2.core.Deck;
-import proj2.core.Hand;
-import proj2.core.Set;
-import proj2.core.Stack;
+import rummy.core.Card;
+import rummy.core.Deck;
+import rummy.core.Hand;
+import rummy.core.Set;
+import rummy.core.Stack;
 
 /**
  * This GUI assumes that you are using a 52 card deck and that you have 13 sets

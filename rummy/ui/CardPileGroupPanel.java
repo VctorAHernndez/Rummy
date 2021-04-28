@@ -1,4 +1,4 @@
-package proj2.ui;
+package rummy.ui;
 
 import java.awt.Component;
 
@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import proj2.core.Card;
+import rummy.core.Card;
 
 /**
  * Creates the images and labels of the Deck and stack.

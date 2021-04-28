@@ -1,11 +1,11 @@
-package proj2.ui;
+package rummy.ui;
 
 // import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import proj2.core.Card;
-import proj2.core.Set;
+import rummy.core.Card;
+import rummy.core.Set;
 
 /**
  * Graphic representation of Sets layed on the table.

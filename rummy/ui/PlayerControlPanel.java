@@ -1,4 +1,4 @@
-package proj2.ui;
+package rummy.ui;
 
 import java.awt.Component;
 
@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import proj2.core.Card;
+import rummy.core.Card;
 
 /**
  * Creates a player's controls, including Draw, Discard and Lay buttons.

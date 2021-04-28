@@ -1,8 +1,8 @@
-package proj2.util;
+package rummy.util;
 
 import javax.swing.DefaultListModel;
 
-import proj2.core.Card;
+import rummy.core.Card;
 
 /**
  * Bubble sort implemented because Collections.sort() does not work with
