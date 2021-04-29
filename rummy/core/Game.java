@@ -45,10 +45,9 @@ public class Game {
   public void start() {
 
     // Prepare each players' hands
-    this.dealCardsToPlayers();
+    dealCardsToPlayers();
 
     // After dealing to players, the next card from the Deck initiates the Stack
-    // NOTE: This is necessary before preparing Players' controls
     Card firstStackCard = cardDeck.dealCard();
     stackDeck.addCard(firstStackCard);
 

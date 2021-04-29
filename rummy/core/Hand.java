@@ -276,33 +276,4 @@ public class Hand implements HandInterface, Comparable<Hand> {
     return this.hand;
   }
 
-  /**
-   * Replaces the specified card with another card. Only the first instance of the
-   * targeted card is replaced. No action occurs if the targeted card is not
-   * present in the hand.
-   * 
-   * @return <code>true</code> if the replacement occurs.
-   */
-  // NOTE: NOT IN INTERFACE
-  // TODO: Not used?
-  // public boolean replaceCard(Card oldCard, Card replacementCard) {
-  // int location = findCard(oldCard);
-
-  // if (location < 0) {
-  // return false;
-  // }
-
-  // hand.set(location, replacementCard);
-  // return true;
-  // }
-
-  /**
-   * Removes all the cards from the hand, leaving an empty hand.
-   */
-  // NOTE: NOT IN INTERFACE
-  // TODO: Not used?
-  // public void discardHand() {
-  // hand.clear();
-  // }
-
 }
