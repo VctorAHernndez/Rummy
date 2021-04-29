@@ -22,7 +22,7 @@ I didn't help anyone else in the group, as of the time of writing.
 
 1. Clone this repository
 2. `cd` into this repository
-3. Compile the source files with `javac rummy/Main.java`
+3. Compile the source files with `javac rummy/Main.java` and `javac rummy/core/Game.java`
 4. To run:
    1. if you want to play against the computer, use `java rummy.Main`
    2. if you want the computer to play against itself, use `java rummy.core.Game`
